@@ -24,5 +24,25 @@
                 <RadioButton Content="Playlists" Foreground="White" Margin="0,10,0,0"/>
             </StackPanel>
         </Grid>
+        <Grid Grid.Column="1" Background="DarkRed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Margin="10" Orientation="Horizontal">
+                
+                <Label Content="Search " FontSize="18" Foreground ="White" FontFamily="Arial" VerticalAlignment="Center"/>
+
+                <TextBlock Text = "" FontSize="18" Foreground ="White" FontFamily="Arial" Width="337" Height="21" VerticalAlignment="Center">
+                    
+                    <Border BorderBrush="Black" Height="21" Width="337" BorderThickness="1"/>
+                </TextBlock>
+                           
+                
+
+
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </Window>

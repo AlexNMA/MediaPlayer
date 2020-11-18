@@ -24,5 +24,10 @@ namespace MediaPlayer
         {
             InitializeComponent();
         }
+
+        private void InitializeComponent()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
