@@ -6,43 +6,89 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="MainWindow" d:DesignWidth="1206.826" d:DesignHeight="773.913">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+  <Grid Background="#FF292929">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="150"/>
+      <ColumnDefinition Width="1.5*" />
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
 
-        <Grid Background="#FF252525">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="150"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Image Source="https://www.online-tech-tips.com/wp-content/uploads/2019/05/music.png" Margin="10"/>
-            <StackPanel Margin="10" Orientation="Vertical" Grid.Row="1">
-                <RadioButton Content="Library" Foreground="White"/>
-                <RadioButton Content="Playlists" Foreground="White" Margin="0,10,0,0"/>
-            </StackPanel>
-        </Grid>
-        <Grid Grid.Column="1" Background="DarkRed">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <StackPanel Margin="10" Orientation="Horizontal">
-                
-                <Label Content="Search " FontSize="18" Foreground ="White" FontFamily="Arial" VerticalAlignment="Center"/>
+    <Grid Background="#FF252525">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="150"/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+      <Image Source="https://www.online-tech-tips.com/wp-content/uploads/2019/05/music.png" Margin="10"/>
+      <StackPanel Margin="10" Orientation="Vertical" Grid.Row="1">
+        <RadioButton Content="Library" Foreground="White"/>
+        <RadioButton Content="Playlists" Foreground="White" Margin="0,10,0,0"/>
+      </StackPanel>
+    </Grid>
+    <Grid Grid.Column="1" Background="DarkRed">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="50"/>
+        <RowDefinition Height="1*"/>
+      </Grid.RowDefinitions>
+      <StackPanel Margin="10" Orientation="Horizontal">
+        <Label Content="Search" Foreground="White"/>
+        <TextBox TextWrapping="Wrap" Width="545" Height="16" BorderBrush="Black" SelectionBrush="Black" Foreground="White" FontFamily="Arial" TextAlignment="Left" RenderTransformOrigin="0.507,0.641" Background="{x:Null}" FontSize="16" />
+      </StackPanel>
+      <DataGrid Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"/>
+    </Grid>
+    <Grid Grid.Column="2" Background="#FF252525">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="250"/>
+        <RowDefinition Height="60"/>
+        <RowDefinition Height="100"/>
+        <RowDefinition Height="50" />
+        <RowDefinition Height="1*"/>
+        <RowDefinition Height="50"/>
+      </Grid.RowDefinitions>
 
-                <TextBlock Text = "" FontSize="18" Foreground ="White" FontFamily="Arial" Width="337" Height="21" VerticalAlignment="Center">
-                    
-                    <Border BorderBrush="Black" Height="21" Width="337" BorderThickness="1"/>
-                </TextBlock>
-                           
-                
+      <StackPanel>
+        <Image Height="200" Width="200" Margin="0,25,0,0" Source="/resource/video.png"/>
+      </StackPanel>
+
+      <StackPanel Grid.Row="1" Orientation="Vertical">
+        <Label Content="Track - Artist" Width="200" Foreground="White" FontSize="16" HorizontalContentAlignment="Center"/>
+        <Label Content="Album" Width="200" Foreground="#FFC9C9C9" FontSize="13" HorizontalContentAlignment="Center" Background="{x:Null}"/>
+      </StackPanel>
+
+      <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <Button Content="Button" Width="60" Height="60" Margin ="105,0,5,0" BorderBrush="{x:Null}" Foreground="{x:Null}">
+          <Button.Background>
+            <ImageBrush ImageSource="/icons8-skip-to-start-64.png"/>
+          </Button.Background>
+        </Button>
+        <Button Content="Button" Width="70" Height="70" Margin ="5,0,5,0" BorderBrush="{x:Null}" Foreground="{x:Null}">
+          <Button.Background>
+            <ImageBrush ImageSource="/resource/play.png"/>
+          </Button.Background>
+        </Button>
+        <Button Content="Button" Width="60" Height="60" Margin ="5,0,0,0" Foreground="{x:Null}" BorderBrush="{x:Null}">
+          <Button.Background>
+            <ImageBrush ImageSource="/resource/icons8-end-64.png" Stretch="Fill"/>
+          </Button.Background>
+        </Button>
 
 
-            </StackPanel>
-        </Grid>
+      </StackPanel>
+      <StackPanel Grid.Row="3" Orientation="Vertical">
+        <Slider  Margin="42,14,42,18" Grid.Row="3"/>
+      </StackPanel>
+      <StackPanel Grid.Row="5" Orientation="Vertical">
+        <Button Content="Button" Width="40" Height="40" Margin ="360,5,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" >
+          <Button.Background>
+            <ImageBrush ImageSource="/resource/icons8-queue-40.png"/>
+          </Button.Background>
+        </Button>
+
+      </StackPanel>
+
 
     </Grid>
+
+
+
+  </Grid>
 </Window>
