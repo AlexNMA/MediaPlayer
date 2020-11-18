@@ -13,9 +13,16 @@ namespace MediaPlayer
             InitializeComponent();
         }
 
-        private void InitializeComponent()
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            PauseButton.Visibility = Visibility.Visible;
+            PlayButton.Visibility = Visibility.Collapsed;
+        }
+
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            PauseButton.Visibility = Visibility.Collapsed;
+            PlayButton.Visibility = Visibility.Visible;
         }
     }
 }
