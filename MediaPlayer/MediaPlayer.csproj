@@ -7,18 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="icons8-end-64.png" />
     <None Remove="icons8-queue-40.png" />
-    <None Remove="icons8-skip-to-start-64.png" />
-    <None Remove="play.png" />
     <None Remove="video.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="icons8-end-64.png" />
     <Resource Include="icons8-queue-40.png" />
-    <Resource Include="icons8-skip-to-start-64.png" />
-    <Resource Include="play.png" />
     <Resource Include="resource\video.png" />
   </ItemGroup>
 
