@@ -62,12 +62,12 @@
         </Button>
         <Button Content="Button" Width="70" Height="70" Margin ="5,0,5,0" BorderBrush="{x:Null}" Foreground="{x:Null}">
           <Button.Background>
-            <ImageBrush ImageSource="/resource/play.png"/>
+            <ImageBrush ImageSource="/play.png"/>
           </Button.Background>
         </Button>
         <Button Content="Button" Width="60" Height="60" Margin ="5,0,0,0" Foreground="{x:Null}" BorderBrush="{x:Null}">
           <Button.Background>
-            <ImageBrush ImageSource="/resource/icons8-end-64.png" Stretch="Fill"/>
+            <ImageBrush ImageSource="/icons8-end-64.png" Stretch="Fill"/>
           </Button.Background>
         </Button>
 
@@ -79,7 +79,7 @@
       <StackPanel Grid.Row="5" Orientation="Vertical">
         <Button Content="Button" Width="40" Height="40" Margin ="360,5,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" >
           <Button.Background>
-            <ImageBrush ImageSource="/resource/icons8-queue-40.png"/>
+            <ImageBrush ImageSource="/icons8-queue-40.png"/>
           </Button.Background>
         </Button>
 
