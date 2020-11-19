@@ -12,6 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="icons8-queue-40.png" />
     <Resource Include="resource\video.png" />
   </ItemGroup>

@@ -11,6 +11,7 @@ namespace MediaPlayer
         public MainWindow()
         {
             InitializeComponent();
+            
         }
 
         
