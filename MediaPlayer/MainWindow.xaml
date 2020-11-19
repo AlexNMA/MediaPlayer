@@ -1,167 +1,197 @@
-﻿<Window x:Class="MediaPlayer.MainWindow"
+﻿<Window x:Name="MediaPlayerWindow" x:Class="MediaPlayer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Media Player" d:DesignHeight="997.913" Width="1349" MinWidth="1350" Height="994" MinHeight="600">
-  <Window.Resources>
-    <ResourceDictionary>
-      <Style TargetType="RadioButton" x:Key="SidebarRadioButton">
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontSize" Value="24"/>
+        Title="Media Player" d:DesignHeight="997.913" Width="1349" MinWidth="1350" Height="994" MinHeight="600" Loaded="MediaPlayerWindow_Loaded">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style TargetType="RadioButton" x:Key="SidebarRadioButton">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontSize" Value="24"/>
 
-      </Style>
-      <Style x:Key="OptionMarkFocusVisual">
-        <Setter Property="Control.Template">
-          <Setter.Value>
-            <ControlTemplate>
-              <Rectangle Margin="14,0,0,0" StrokeDashArray="1 2" SnapsToDevicePixels="true" StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            </Style>
+            <Style x:Key="OptionMarkFocusVisual">
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Margin="14,0,0,0" StrokeDashArray="1 2" SnapsToDevicePixels="true" StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <SolidColorBrush x:Key="RadioButton.Static.Glyph" Color="#FF212121"/>
+            <SolidColorBrush x:Key="RadioButton.MouseOver.Background" Color="#FFF3F9FF"/>
+            <SolidColorBrush x:Key="RadioButton.MouseOver.Border" Color="#FF5593FF"/>
+            <SolidColorBrush x:Key="RadioButton.MouseOver.Glyph" Color="#FF212121"/>
+            <SolidColorBrush x:Key="RadioButton.Pressed.Background" Color="#FFD9ECFF"/>
+            <SolidColorBrush x:Key="RadioButton.Pressed.Border" Color="#FF3C77DD"/>
+            <SolidColorBrush x:Key="RadioButton.Pressed.Glyph" Color="#FF212121"/>
+            <SolidColorBrush x:Key="RadioButton.Disabled.Background" Color="#FFE6E6E6"/>
+            <SolidColorBrush x:Key="RadioButton.Disabled.Border" Color="#FFBCBCBC"/>
+            <SolidColorBrush x:Key="RadioButton.Disabled.Glyph" Color="#FF707070"/>
+            <ControlTemplate x:Key="SidebarRadioButtonTemplate" TargetType="{x:Type RadioButton}">
+                <Grid x:Name="grid" Background="{x:Null}" >
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal"/>
+                            <VisualState x:Name="MouseOver">
+                                <Storyboard>
+                                    <ColorAnimationUsingKeyFrames Storyboard.TargetName="background" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+                                        <EasingColorKeyFrame KeyTime="00:00:00" Value="#0CFFFFFF"/>
+                                    </ColorAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Pressed"/>
+                            <VisualState x:Name="Disabled"/>
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="CheckStates">
+                            <VisualState x:Name="Checked">
+                                <Storyboard>
+                                    <ColorAnimationUsingKeyFrames Storyboard.TargetName="check" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+                                        <EasingColorKeyFrame KeyTime="00:00:00" Value="#19FFFFFF"/>
+                                    </ColorAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Unchecked"/>
+                            <VisualState x:Name="Indeterminate"/>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <Rectangle x:Name="background" Fill="Transparent"/>
+                    <Rectangle x:Name="check" Fill="Transparent"/>
+                    <ContentPresenter x:Name="contentPresenter" Focusable="False" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Content="{TemplateBinding Content}" d:IsHidden="True"/>
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="HasContent" Value="true">
+                        <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
+                        <Setter Property="Padding" Value="4,-1,0,0"/>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="true"/>
+                    <Trigger Property="IsEnabled" Value="false"/>
+                    <Trigger Property="IsPressed" Value="true"/>
+                    <Trigger Property="IsChecked" Value="true">
+                    </Trigger>
+                    <Trigger Property="IsChecked" Value="{x:Null}">
+                    </Trigger>
+                </ControlTemplate.Triggers>
             </ControlTemplate>
-          </Setter.Value>
-        </Setter>
-      </Style>
-      <SolidColorBrush x:Key="RadioButton.Static.Glyph" Color="#FF212121"/>
-      <SolidColorBrush x:Key="RadioButton.MouseOver.Background" Color="#FFF3F9FF"/>
-      <SolidColorBrush x:Key="RadioButton.MouseOver.Border" Color="#FF5593FF"/>
-      <SolidColorBrush x:Key="RadioButton.MouseOver.Glyph" Color="#FF212121"/>
-      <SolidColorBrush x:Key="RadioButton.Pressed.Background" Color="#FFD9ECFF"/>
-      <SolidColorBrush x:Key="RadioButton.Pressed.Border" Color="#FF3C77DD"/>
-      <SolidColorBrush x:Key="RadioButton.Pressed.Glyph" Color="#FF212121"/>
-      <SolidColorBrush x:Key="RadioButton.Disabled.Background" Color="#FFE6E6E6"/>
-      <SolidColorBrush x:Key="RadioButton.Disabled.Border" Color="#FFBCBCBC"/>
-      <SolidColorBrush x:Key="RadioButton.Disabled.Glyph" Color="#FF707070"/>
-      <ControlTemplate x:Key="SidebarRadioButtonTemplate" TargetType="{x:Type RadioButton}">
-        <Grid x:Name="grid" Background="{x:Null}" >
-          <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="CommonStates">
-              <VisualState x:Name="Normal"/>
-              <VisualState x:Name="MouseOver">
-                <Storyboard>
-                  <ColorAnimationUsingKeyFrames Storyboard.TargetName="background" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
-                    <EasingColorKeyFrame KeyTime="00:00:00" Value="#0CFFFFFF"/>
-                  </ColorAnimationUsingKeyFrames>
-                </Storyboard>
-              </VisualState>
-              <VisualState x:Name="Pressed"/>
-              <VisualState x:Name="Disabled"/>
-            </VisualStateGroup>
-            <VisualStateGroup x:Name="CheckStates">
-              <VisualState x:Name="Checked">
-                <Storyboard>
-                  <ColorAnimationUsingKeyFrames Storyboard.TargetName="check" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
-                    <EasingColorKeyFrame KeyTime="00:00:00" Value="#19FFDC00"/>
-                  </ColorAnimationUsingKeyFrames>
-                </Storyboard>
-              </VisualState>
-              <VisualState x:Name="Unchecked"/>
-              <VisualState x:Name="Indeterminate"/>
-            </VisualStateGroup>
-          </VisualStateManager.VisualStateGroups>
-          <Rectangle x:Name="background" Fill="Transparent"/>
-          <Rectangle x:Name="check" Fill="Transparent"/>
-          <ContentPresenter x:Name="contentPresenter" Focusable="False" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Content="{TemplateBinding Content}" d:IsHidden="True"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="1.5*" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid Background="#FF252525" HorizontalAlignment="Left" Width="150">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="150"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Image Source="https://www.online-tech-tips.com/wp-content/uploads/2019/05/music.png" Margin="10"/>
+            <StackPanel Margin="10" Orientation="Vertical" Grid.Row="1">
+                <RadioButton x:Name="LibraryRB" Template="{DynamicResource SidebarRadioButtonTemplate}" Content="Library" Style="{StaticResource SidebarRadioButton}" Checked="LibraryRB_Checked"/>
+                <RadioButton x:Name="PlayListRB" Template="{DynamicResource SidebarRadioButtonTemplate}" Content="Playlists" Style="{StaticResource SidebarRadioButton}" Margin="0,10,0,0" Checked="PlayListRB_Checked"/>
+            </StackPanel>
         </Grid>
-        <ControlTemplate.Triggers>
-          <Trigger Property="HasContent" Value="true">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
-            <Setter Property="Padding" Value="4,-1,0,0"/>
-          </Trigger>
-          <Trigger Property="IsMouseOver" Value="true"/>
-          <Trigger Property="IsEnabled" Value="false"/>
-          <Trigger Property="IsPressed" Value="true"/>
-          <Trigger Property="IsChecked" Value="true">
-          </Trigger>
-          <Trigger Property="IsChecked" Value="{x:Null}">
-          </Trigger>
-        </ControlTemplate.Triggers>
-      </ControlTemplate>
-    </ResourceDictionary>
-  </Window.Resources>
-  <Grid Background="White">
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="150"/>
-      <ColumnDefinition Width="1.5*" />
-      <ColumnDefinition />
-    </Grid.ColumnDefinitions>
+        <Grid x:Name="GridLibrary" Grid.Column="1" Background="DarkRed" Grid.ColumnSpan="2" Margin="0,0,425,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <StackPanel x:Name="SearchPanel" Margin="10,10,0,10" Orientation="Horizontal" HorizontalAlignment="Left" Width="734">
+                <Label Content="Search" Foreground="White"/>
+                <TextBox TextWrapping="Wrap" Width="652" Height="16" BorderBrush="Black" SelectionBrush="Black" Foreground="White" FontFamily="Arial" TextAlignment="Left" RenderTransformOrigin="0.507,0.641" Background="{x:Null}" FontSize="16" />
+            </StackPanel>
+            <DataGrid x:Name="DataGridLibrary" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" FontSize="20" GridLinesVisibility="All" FontStretch="Normal" d:IsHidden="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" FontSize="20" CanUserResize="False" Width="200"   />
+                    <DataGridTextColumn Header="Artist" FontSize="20" CanUserResize="False" Width="200"/>
+                    <DataGridTextColumn Header="Album" FontSize="20" CanUserResize="False" Width="200"/>
+                    <DataGridTextColumn Header="Gengre" FontSize="20" CanUserResize="False" Width="200"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <ListBox x:Name="PlayListLB" Margin="10,0,10,728" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionMode="Single"/>
+            <DataGrid x:Name="DataGridPlaylis" Grid.Row="1" Margin="10,204,10,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" FontSize="20" CanUserResize="False" Width="200"   />
+                    <DataGridTextColumn Header="Artist" FontSize="20" CanUserResize="False" Width="200"/>
+                    <DataGridTextColumn Header="Album" FontSize="20" CanUserResize="False" Width="200"/>
+                    <DataGridTextColumn Header="Gengre" FontSize="20" CanUserResize="False" Width="200"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Column="2" Background="#FF252525" Width="430" HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="448*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22.04"/>
+                <RowDefinition Height="227.96"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
 
-    <Grid Background="#FF252525" HorizontalAlignment="Left" Width="150">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="150"/>
-        <RowDefinition/>
-      </Grid.RowDefinitions>
-      <Image Source="https://www.online-tech-tips.com/wp-content/uploads/2019/05/music.png" Margin="10"/>
-      <StackPanel Margin="10" Orientation="Vertical" Grid.Row="1">
-        <RadioButton Template="{DynamicResource SidebarRadioButtonTemplate}" Content="Library" Style="{StaticResource SidebarRadioButton}"/>
-        <RadioButton Template="{DynamicResource SidebarRadioButtonTemplate}" Content="Playlists" Style="{StaticResource SidebarRadioButton}" Margin="0,10,0,0"/>
-      </StackPanel>
+
+
+
+
+
+
+
+
+
+            <Grid Grid.Row="6" Grid.Column="1" Margin="10,2,10,2">
+                <Button  Style="{DynamicResource PlaybackButtonStyle}" Width="40" Height="40" HorizontalAlignment="Right" Margin="0,0,10,0"  >
+                    <Path Style="{DynamicResource PlaybackButtonPathStyle}" Data="M43,43c-14.78125,0 -26.875,12.09375 -26.875,26.875c0,7.93653 3.54834,15.0542 9.07031,19.98828c-14.82324,6.80273 -25.19531,21.81494 -25.19531,39.13672h10.75c0,-17.86768 14.38232,-32.25 32.25,-32.25c17.86768,0 32.25,14.38232 32.25,32.25h10.75c0,-7.41162 -1.88965,-14.40332 -5.20703,-20.49219h0.33594c1.99463,-9.80518 10.54004,-17.13281 20.99609,-17.13281c11.92578,0 21.5,9.57422 21.5,21.5h10.75c0,-5.87891 -1.57471,-11.35889 -4.36719,-16.125c2.22559,-6.23584 8.0625,-10.75 15.11719,-10.75c8.96533,0 16.125,7.15967 16.125,16.125h10.75c0,-9.86816 -5.45898,-18.49756 -13.4375,-23.17969c1.74268,-2.58252 2.6875,-5.75293 2.6875,-9.07031c0,-8.83935 -7.28565,-16.125 -16.125,-16.125c-8.83935,0 -16.125,7.28565 -16.125,16.125c0,3.31739 0.94482,6.48779 2.6875,9.07031c-3.80029,2.20459 -7.07568,5.18604 -9.40625,8.90234c-1.44873,-1.17578 -3.06543,-2.28857 -4.70312,-3.19141c0.83984,-0.88183 1.65869,-1.84766 2.35156,-2.85547c2.33057,-3.44336 3.69531,-7.4956 3.69531,-11.92578c0,-11.8208 -9.6792,-21.5 -21.5,-21.5c-10.33008,0 -18.98047,7.36963 -20.99609,17.13281c-0.29394,1.38574 -0.50391,2.89746 -0.50391,4.36719c0,5.77393 2.45654,10.89697 6.21484,14.78125c-5.79492,3.17041 -10.47705,8.02051 -13.4375,13.94141c-3.61133,-3.61133 -7.91553,-6.59277 -12.59766,-8.73437c5.52197,-4.93408 9.07031,-12.05176 9.07031,-19.98828c0,-14.78125 -12.09375,-26.875 -26.875,-26.875zM43,53.75c8.96533,0 16.125,7.15967 16.125,16.125c0,8.96533 -7.15967,16.125 -16.125,16.125c-8.96533,0 -16.125,-7.15967 -16.125,-16.125c0,-8.96533 7.15967,-16.125 16.125,-16.125zM102.125,59.125c6.00489,0 10.75,4.74512 10.75,10.75c0,6.00489 -4.74511,10.75 -10.75,10.75c-6.00488,0 -10.75,-4.74511 -10.75,-10.75c0,-0.75586 0.02099,-1.46972 0.16797,-2.18359c0.98682,-4.93408 5.33301,-8.56641 10.58203,-8.56641zM145.125,64.5c3.02344,0 5.375,2.35156 5.375,5.375c0,3.02344 -2.35156,5.375 -5.375,5.375c-3.02344,0 -5.375,-2.35156 -5.375,-5.375c0,-3.02344 2.35156,-5.375 5.375,-5.375z"/>
+                </Button>
+            </Grid>
+
+
+
+
+
+            <Grid Grid.RowSpan="2" HorizontalAlignment="Center" Width="404" Grid.Column="1">
+                <Image Width="200" Source="/resource/video.png" Margin="0,40,0,0"/>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="1" >
+                <Label Content="Track - Artist" Width="200" Foreground="White" FontSize="16" HorizontalContentAlignment="Center" Margin="124,0,124,30"/>
+                <Label Content="Album" Width="200" Foreground="#FFC9C9C9" FontSize="13" HorizontalContentAlignment="Center" Background="{x:Null}" Margin="124,30,124,0"/>
+            </Grid>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal" Width="235" Grid.Column="1">
+                <Button Style="{DynamicResource PlaybackButtonStyle}" Width="60" Height="60" >
+                    <Path Style="{DynamicResource PlaybackButtonPathStyle}" Data="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                </Button>
+                <Button Click="PlayButton_Click" Style="{DynamicResource PlaybackButtonStyle}" x:Name="PlayButton" Width="70" Height="70" Margin ="20,0,20,0" Visibility="Visible">
+                    <Path Style="{DynamicResource PlaybackButtonPathStyle}" Data="M8 5v14l11-7z"/>
+                </Button>
+                <Button Click="PauseButton_Click" Visibility="Collapsed" Style="{DynamicResource PlaybackButtonStyle}" x:Name="PauseButton" Width="70" Height="70" Margin ="20,0,20,0">
+                    <Path Style="{DynamicResource PlaybackButtonPathStyle}" Data="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                </Button>
+                <Button Style="{DynamicResource PlaybackButtonStyle}" Margin ="5,0,0,0" Width="60" Height="60">
+                    <Path Style="{DynamicResource PlaybackButtonPathStyle}" Data="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                </Button>
+            </StackPanel>
+            <StackPanel Grid.Row="4" Orientation="Vertical" Grid.ColumnSpan="2" Margin="5,5,5,5" >
+                <Slider  Margin="42,14,42,18" Grid.Row="3" Width="373"/>
+            </StackPanel>
+
+
+
+
+
+        </Grid>
+
+
+
+
     </Grid>
-    <Grid Grid.Column="1" Background="DarkRed" Grid.ColumnSpan="2" Margin="0,0,425,0">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="50"/>
-        <RowDefinition Height="1*"/>
-      </Grid.RowDefinitions>
-      <StackPanel Margin="10,10,0,10" Orientation="Horizontal" HorizontalAlignment="Left" Width="734">
-        <Label Content="Search" Foreground="White"/>
-        <TextBox TextWrapping="Wrap" Width="652" Height="16" BorderBrush="Black" SelectionBrush="Black" Foreground="White" FontFamily="Arial" TextAlignment="Left" RenderTransformOrigin="0.507,0.641" Background="{x:Null}" FontSize="16" />
-      </StackPanel>
-      <DataGrid Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Height="Auto" Margin="-13,0,0,0"/>
-    </Grid>
-    <Grid Grid.Column="2" Background="#FF252525" Width="430" HorizontalAlignment="Right">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*"/>
-        <ColumnDefinition Width="448*"/>
-      </Grid.ColumnDefinitions>
-      <Grid.RowDefinitions>
-        <RowDefinition Height="22.04"/>
-        <RowDefinition Height="227.96"/>
-        <RowDefinition Height="60"/>
-        <RowDefinition Height="100"/>
-        <RowDefinition Height="50" />
-        <RowDefinition Height="1*"/>
-        <RowDefinition Height="50"/>
-      </Grid.RowDefinitions>
-
-      <Grid Grid.RowSpan="2" HorizontalAlignment="Center" Width="404" Grid.Column="1">
-        <Image Width="200" Source="/resource/video.png" Margin="0,40,0,0"/>
-      </Grid>
-
-      <Grid Grid.Row="2" Grid.Column="1" >
-        <Label Content="Track - Artist" Width="200" Foreground="White" FontSize="16" HorizontalContentAlignment="Center" Margin="124,0,124,30"/>
-        <Label Content="Album" Width="200" Foreground="#FFC9C9C9" FontSize="13" HorizontalContentAlignment="Center" Background="{x:Null}" Margin="124,30,124,0"/>
-      </Grid>
-
-      <StackPanel Grid.Row="3" Orientation="Horizontal" Width="235" Grid.Column="1">
-        <Button Style="{DynamicResource PlaybackButtonStyle}" Width="60" Height="60" >
-          <Path Style="{DynamicResource PlaybackButtonPathStyle}" Data="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
-        </Button>
-        <Button Click="PlayButton_Click" Style="{DynamicResource PlaybackButtonStyle}" x:Name="PlayButton" Width="70" Height="70" Margin ="20,0,20,0" Visibility="Visible">
-          <Path Style="{DynamicResource PlaybackButtonPathStyle}" Data="M8 5v14l11-7z"/>
-        </Button>
-        <Button Click="PauseButton_Click" Visibility="Collapsed" Style="{DynamicResource PlaybackButtonStyle}" x:Name="PauseButton" Width="70" Height="70" Margin ="20,0,20,0">
-          <Path Style="{DynamicResource PlaybackButtonPathStyle}" Data="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-        </Button>
-        <Button Style="{DynamicResource PlaybackButtonStyle}" Margin ="5,0,0,0" Width="60" Height="60">
-          <Path Style="{DynamicResource PlaybackButtonPathStyle}" Data="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
-        </Button>
-      </StackPanel>
-      <StackPanel Grid.Row="4" Orientation="Vertical" Grid.ColumnSpan="2" Margin="5,5,5,5" >
-        <Slider  Margin="42,14,42,18" Grid.Row="3" Width="373"/>
-      </StackPanel>
-      <Grid Grid.Row="6" Grid.Column="1" Margin="10,2,10,2">
-        <Button  Style="{DynamicResource PlaybackButtonStyle}" Width="40" Height="40" HorizontalAlignment="Right" Margin="0,0,10,0"  >
-          <Path Style="{DynamicResource PlaybackButtonPathStyle}" Data="M43,43c-14.78125,0 -26.875,12.09375 -26.875,26.875c0,7.93653 3.54834,15.0542 9.07031,19.98828c-14.82324,6.80273 -25.19531,21.81494 -25.19531,39.13672h10.75c0,-17.86768 14.38232,-32.25 32.25,-32.25c17.86768,0 32.25,14.38232 32.25,32.25h10.75c0,-7.41162 -1.88965,-14.40332 -5.20703,-20.49219h0.33594c1.99463,-9.80518 10.54004,-17.13281 20.99609,-17.13281c11.92578,0 21.5,9.57422 21.5,21.5h10.75c0,-5.87891 -1.57471,-11.35889 -4.36719,-16.125c2.22559,-6.23584 8.0625,-10.75 15.11719,-10.75c8.96533,0 16.125,7.15967 16.125,16.125h10.75c0,-9.86816 -5.45898,-18.49756 -13.4375,-23.17969c1.74268,-2.58252 2.6875,-5.75293 2.6875,-9.07031c0,-8.83935 -7.28565,-16.125 -16.125,-16.125c-8.83935,0 -16.125,7.28565 -16.125,16.125c0,3.31739 0.94482,6.48779 2.6875,9.07031c-3.80029,2.20459 -7.07568,5.18604 -9.40625,8.90234c-1.44873,-1.17578 -3.06543,-2.28857 -4.70312,-3.19141c0.83984,-0.88183 1.65869,-1.84766 2.35156,-2.85547c2.33057,-3.44336 3.69531,-7.4956 3.69531,-11.92578c0,-11.8208 -9.6792,-21.5 -21.5,-21.5c-10.33008,0 -18.98047,7.36963 -20.99609,17.13281c-0.29394,1.38574 -0.50391,2.89746 -0.50391,4.36719c0,5.77393 2.45654,10.89697 6.21484,14.78125c-5.79492,3.17041 -10.47705,8.02051 -13.4375,13.94141c-3.61133,-3.61133 -7.91553,-6.59277 -12.59766,-8.73437c5.52197,-4.93408 9.07031,-12.05176 9.07031,-19.98828c0,-14.78125 -12.09375,-26.875 -26.875,-26.875zM43,53.75c8.96533,0 16.125,7.15967 16.125,16.125c0,8.96533 -7.15967,16.125 -16.125,16.125c-8.96533,0 -16.125,-7.15967 -16.125,-16.125c0,-8.96533 7.15967,-16.125 16.125,-16.125zM102.125,59.125c6.00489,0 10.75,4.74512 10.75,10.75c0,6.00489 -4.74511,10.75 -10.75,10.75c-6.00488,0 -10.75,-4.74511 -10.75,-10.75c0,-0.75586 0.02099,-1.46972 0.16797,-2.18359c0.98682,-4.93408 5.33301,-8.56641 10.58203,-8.56641zM145.125,64.5c3.02344,0 5.375,2.35156 5.375,5.375c0,3.02344 -2.35156,5.375 -5.375,5.375c-3.02344,0 -5.375,-2.35156 -5.375,-5.375c0,-3.02344 2.35156,-5.375 5.375,-5.375z"/>
-        </Button>
-      </Grid>
-
-
-
-
-
-    </Grid>
-
-
-
-
-  </Grid>
 </Window>
