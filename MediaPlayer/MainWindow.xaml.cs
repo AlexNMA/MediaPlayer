@@ -3,26 +3,29 @@ using System.Windows;
 
 namespace MediaPlayer
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    
     public partial class MainWindow : Window
     {
+       
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
             PauseButton.Visibility = Visibility.Visible;
             PlayButton.Visibility = Visibility.Collapsed;
+            MediaplayerElement.Play();
         }
 
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
             PauseButton.Visibility = Visibility.Collapsed;
             PlayButton.Visibility = Visibility.Visible;
+            MediaplayerElement.Pause();
         }
 
         private void LibraryRB_Checked(object sender, RoutedEventArgs e)
@@ -44,6 +47,8 @@ namespace MediaPlayer
         private void MediaPlayerWindow_Loaded(object sender, RoutedEventArgs e)
         {
             LibraryRB.IsChecked = true;
+           
         }
+
     }
 }

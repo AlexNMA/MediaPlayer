@@ -122,6 +122,7 @@
                     <DataGridTextColumn Header="Gengre" FontSize="20" CanUserResize="False" Width="200"/>
                 </DataGrid.Columns>
             </DataGrid>
+            <MediaElement x:Name="MediaplayerElement" HorizontalAlignment="Stretch" Height="0" VerticalAlignment="Stretch" Width="0" Volume="1" OpacityMask="#00000000" Visibility="Collapsed" Opacity="0"/>
         </Grid>
         <Grid Grid.Column="2" Background="#FF252525" Width="430" HorizontalAlignment="Right">
             <Grid.ColumnDefinitions>
