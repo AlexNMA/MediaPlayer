@@ -105,13 +105,13 @@
                 <Label Content="Search" Foreground="White"/>
                 <TextBox TextWrapping="Wrap" Width="652" Height="16" BorderBrush="Black" SelectionBrush="Black" Foreground="White" FontFamily="Arial" TextAlignment="Left" RenderTransformOrigin="0.507,0.641" Background="{x:Null}" FontSize="16" />
             </StackPanel>
-            <DataGrid x:Name="DataGridLibrary" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" FontSize="20" GridLinesVisibility="All" FontStretch="Normal" d:IsHidden="True">
-                <DataGrid.Columns>
+            <DataGrid x:Name="DataGridLibrary" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" FontSize="20" GridLinesVisibility="All" FontStretch="Normal" d:IsHidden="True" AutoGenerateColumns="True">
+                <!--<DataGrid.Columns>
                     <DataGridTextColumn Header="Name" FontSize="20" CanUserResize="False" Width="200"   />
                     <DataGridTextColumn Header="Artist" FontSize="20" CanUserResize="False" Width="200"/>
                     <DataGridTextColumn Header="Album" FontSize="20" CanUserResize="False" Width="200"/>
                     <DataGridTextColumn Header="Gengre" FontSize="20" CanUserResize="False" Width="200"/>
-                </DataGrid.Columns>
+                </DataGrid.Columns>-->
             </DataGrid>
             <ListBox x:Name="PlayListLB" Margin="10,0,10,728" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionMode="Single"/>
             <DataGrid x:Name="DataGridPlaylis" Grid.Row="1" Margin="10,204,10,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black">

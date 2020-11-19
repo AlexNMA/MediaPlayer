@@ -1,24 +1,29 @@
 ﻿using MediaPlayer.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Text;
 
 namespace MediaPlayer.Db
 {
-    public class Respository
-    {
-        public SqlConnection GetSqlConnection(string connectionString)
-        {
-            SqlConnection con = new SqlConnection(connectionString);
-            return con;
-        }
 
-        public List<Track> GetTracks(SqlConnection connection)
+    public class Repository
+    {
+        public Repository()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["mediaPlayer"].ConnectionString;
+            _con = new SqlConnection(connectionString);
+            _con.Open();
+        }
+        private SqlConnection _con;
+
+
+        public List<Track> GetTracks()
         {
             List<Track> tracks = new List<Track>();
 
-            SqlCommand command = connection.CreateCommand();
+            SqlCommand command = _con.CreateCommand();
             command.CommandText = "select * from Track";
 
             SqlDataReader reader = command.ExecuteReader();
@@ -38,5 +43,11 @@ namespace MediaPlayer.Db
 
             return tracks;
         }
+
+        public List<PLaylist> GetPLaylists()
+        {
+
+        }
+
     }
 }

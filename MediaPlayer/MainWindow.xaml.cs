@@ -1,19 +1,22 @@
-﻿using System;
+﻿using MediaPlayer.Db;
+using MediaPlayer.Models;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace MediaPlayer
 {
     
     public partial class MainWindow : Window
-    {
+    {       
        
-
         public MainWindow()
         {
             InitializeComponent();
             
         }
 
+        private Repository _repository = new Repository();
         
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
@@ -35,6 +38,8 @@ namespace MediaPlayer
             DataGridLibrary.Visibility = Visibility.Visible;
             DataGridPlaylis.Visibility = Visibility.Hidden;
             PlayListLB.Visibility = Visibility.Hidden;
+            List<Track> tracks = _repository.GetTracks();
+            DataGridLibrary.ItemsSource = tracks;
         }
 
         private void PlayListRB_Checked(object sender, RoutedEventArgs e)
