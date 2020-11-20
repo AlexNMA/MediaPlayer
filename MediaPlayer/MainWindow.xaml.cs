@@ -22,14 +22,14 @@ namespace MediaPlayer
         {
             PauseButton.Visibility = Visibility.Visible;
             PlayButton.Visibility = Visibility.Collapsed;
-            MediaplayerElement.Play();
+           // MediaplayerElement.Play();
         }
 
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
             PauseButton.Visibility = Visibility.Collapsed;
             PlayButton.Visibility = Visibility.Visible;
-            MediaplayerElement.Pause();
+           // MediaplayerElement.Pause();
         }
 
         private void LibraryRB_Checked(object sender, RoutedEventArgs e)
@@ -37,7 +37,7 @@ namespace MediaPlayer
             SearchPanel.Visibility = Visibility.Visible;
             DataGridLibrary.Visibility = Visibility.Visible;
             DataGridPlaylis.Visibility = Visibility.Hidden;
-            PlaylistDg.Visibility = Visibility.Hidden;
+            PlaylistLbox.Visibility = Visibility.Hidden;
             List<Track> tracks = _repository.GetTracks();
             DataGridLibrary.ItemsSource = tracks;
         }
@@ -47,9 +47,12 @@ namespace MediaPlayer
             SearchPanel.Visibility = Visibility.Hidden;
             DataGridLibrary.Visibility = Visibility.Hidden;
             DataGridPlaylis.Visibility = Visibility.Visible;
-            PlaylistDg.Visibility = Visibility.Visible;
+            PlaylistLbox.Visibility = Visibility.Visible;
+            
             List<Playlist> playlists = _repository.GetPlaylists();
-            PlaylistDg.ItemsSource = playlists;
+            PlaylistLbox.DisplayMemberPath = "Name";
+            PlaylistLbox.SelectedValuePath = "Id";
+            PlaylistLbox.ItemsSource = playlists;
         }
 
         private void MediaPlayerWindow_Loaded(object sender, RoutedEventArgs e)
@@ -58,6 +61,11 @@ namespace MediaPlayer
 
         }
 
+        private void PlaylistLbox_Selected(object sender, RoutedEventArgs e)
+        {
+            List<Track> tracks = _repository.GetTracksFromPlaylist(PlaylistLbox.SelectedValue);
+            DataGridPlaylis.ItemsSource = tracks;
+        }
     }
 }
 //List<Track> tracksfromplaylists = _repository.GetTracksFromPlaylist();
