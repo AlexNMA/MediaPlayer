@@ -113,7 +113,7 @@
                     <DataGridTextColumn Header="Gengre" FontSize="20" CanUserResize="False" Width="200"/>
                 </DataGrid.Columns>-->
             </DataGrid>
-            <ListBox x:Name="PlayListLB" Margin="10,0,10,728" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionMode="Single"/>
+            <DataGrid x:Name="PlaylisDg" Margin="10,0,10,728" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" SelectionMode="Single"/>
             <DataGrid x:Name="DataGridPlaylis" Grid.Row="1" Margin="10,204,10,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" FontSize="20" CanUserResize="False" Width="200"   />

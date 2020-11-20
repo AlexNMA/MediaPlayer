@@ -37,7 +37,7 @@ namespace MediaPlayer
             SearchPanel.Visibility = Visibility.Visible;
             DataGridLibrary.Visibility = Visibility.Visible;
             DataGridPlaylis.Visibility = Visibility.Hidden;
-            PlayListLB.Visibility = Visibility.Hidden;
+            PlaylisDg.Visibility = Visibility.Hidden;
             List<Track> tracks = _repository.GetTracks();
             DataGridLibrary.ItemsSource = tracks;
         }
@@ -47,7 +47,9 @@ namespace MediaPlayer
             SearchPanel.Visibility = Visibility.Hidden;
             DataGridLibrary.Visibility = Visibility.Hidden;
             DataGridPlaylis.Visibility = Visibility.Visible;
-            PlayListLB.Visibility = Visibility.Visible;
+            PlaylisDg.Visibility = Visibility.Visible;
+            List<Playlist> playlists = _repository.GetPlaylists();
+            PlaylisDg.ItemsSource = playlists;
         }
 
         private void MediaPlayerWindow_Loaded(object sender, RoutedEventArgs e)

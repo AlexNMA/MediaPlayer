@@ -14,13 +14,14 @@ namespace MediaPlayer.Db
         {
             string connectionString = ConfigurationManager.ConnectionStrings["mediaPlayer"].ConnectionString;
             _con = new SqlConnection(connectionString);
-            _con.Open();
+            //_con.Open();
         }
         private SqlConnection _con;
 
 
         public List<Track> GetTracks()
         {
+            _con.Open();
             List<Track> tracks = new List<Track>();
 
             SqlCommand command = _con.CreateCommand();
@@ -41,12 +42,31 @@ namespace MediaPlayer.Db
                 tracks.Add(t);
             }
 
+            _con.Close();
             return tracks;
         }
 
-        public List<PLaylist> GetPLaylists()
+        public List<Playlist> GetPlaylists()
         {
+            _con.Open();
+            List<Playlist> playlists = new List<Playlist>();
 
+            SqlCommand command = _con.CreateCommand();
+            command.CommandText = "select * from Playlist";
+
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                Playlist p = new Playlist()
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1)
+                };
+                playlists.Add(p);
+            }
+            _con.Close();
+
+            return playlists;
         }
 
     }
