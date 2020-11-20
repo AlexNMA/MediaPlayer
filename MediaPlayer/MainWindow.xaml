@@ -103,7 +103,7 @@
             </Grid.RowDefinitions>
             <StackPanel x:Name="SearchPanel" Margin="10,10,0,10" Orientation="Horizontal" HorizontalAlignment="Left" Width="734">
                 <Label Content="Search" Foreground="White"/>
-                <TextBox TextWrapping="Wrap" Width="652" Height="16" BorderBrush="Black" SelectionBrush="Black" Foreground="White" FontFamily="Arial" TextAlignment="Left" RenderTransformOrigin="0.507,0.641" Background="{x:Null}" FontSize="16" />
+                <TextBox x:Name="SearchTb" TextWrapping="Wrap" Width="652" Height="16" BorderBrush="Black" SelectionBrush="Black" Foreground="White" FontFamily="Arial" TextAlignment="Left" RenderTransformOrigin="0.507,0.641" Background="{x:Null}" FontSize="16" MaxLines="1" />
             </StackPanel>
             <DataGrid x:Name="DataGridLibrary" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" FontSize="20" GridLinesVisibility="All" FontStretch="Normal" d:IsHidden="True" AutoGenerateColumns="True">
                 <!--<DataGrid.Columns>
@@ -113,7 +113,6 @@
                     <DataGridTextColumn Header="Gengre" FontSize="20" CanUserResize="False" Width="200"/>
                 </DataGrid.Columns>-->
             </DataGrid>
-            <DataGrid x:Name="PlaylisDg" Margin="10,0,10,728" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" SelectionMode="Single"/>
             <DataGrid x:Name="DataGridPlaylis" Grid.Row="1" Margin="10,204,10,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" FontSize="20" CanUserResize="False" Width="200"   />
@@ -122,6 +121,7 @@
                     <DataGridTextColumn Header="Gengre" FontSize="20" CanUserResize="False" Width="200"/>
                 </DataGrid.Columns>
             </DataGrid>
+            <DataGrid x:Name="PlaylistDg" Margin="10,0,10,728" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" SelectionMode="Single" SelectedCellsChanged="PlaylistDg_SelectedCellsChanged"/>
             <MediaElement x:Name="MediaplayerElement" HorizontalAlignment="Stretch" Height="0" VerticalAlignment="Stretch" Width="0" Volume="1" OpacityMask="#00000000" Visibility="Collapsed" Opacity="0"/>
         </Grid>
         <Grid Grid.Column="2" Background="#FF252525" Width="430" HorizontalAlignment="Right">
@@ -182,7 +182,7 @@
                 </Button>
             </StackPanel>
             <StackPanel Grid.Row="4" Orientation="Vertical" Grid.ColumnSpan="2" Margin="5,5,5,5" >
-                <Slider  Margin="42,14,42,18" Grid.Row="3" Width="373"/>
+                <Slider Style="{DynamicResource SliderStyleTemplate}"  Margin="42,14,42,18" Grid.Row="3" Width="373"/>
             </StackPanel>
 
 

@@ -6,18 +6,18 @@ using System.Windows;
 
 namespace MediaPlayer
 {
-    
+
     public partial class MainWindow : Window
-    {       
-       
+    {
+
         public MainWindow()
         {
             InitializeComponent();
-            
+
         }
 
         private Repository _repository = new Repository();
-        
+
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
             PauseButton.Visibility = Visibility.Visible;
@@ -37,7 +37,7 @@ namespace MediaPlayer
             SearchPanel.Visibility = Visibility.Visible;
             DataGridLibrary.Visibility = Visibility.Visible;
             DataGridPlaylis.Visibility = Visibility.Hidden;
-            PlaylisDg.Visibility = Visibility.Hidden;
+            PlaylistDg.Visibility = Visibility.Hidden;
             List<Track> tracks = _repository.GetTracks();
             DataGridLibrary.ItemsSource = tracks;
         }
@@ -47,16 +47,18 @@ namespace MediaPlayer
             SearchPanel.Visibility = Visibility.Hidden;
             DataGridLibrary.Visibility = Visibility.Hidden;
             DataGridPlaylis.Visibility = Visibility.Visible;
-            PlaylisDg.Visibility = Visibility.Visible;
+            PlaylistDg.Visibility = Visibility.Visible;
             List<Playlist> playlists = _repository.GetPlaylists();
-            PlaylisDg.ItemsSource = playlists;
+            PlaylistDg.ItemsSource = playlists;
         }
 
         private void MediaPlayerWindow_Loaded(object sender, RoutedEventArgs e)
         {
             LibraryRB.IsChecked = true;
-           
+
         }
 
     }
 }
+//List<Track> tracksfromplaylists = _repository.GetTracksFromPlaylist();
+//  DataGridPlaylis.ItemsSource = tracksfromplaylists;
