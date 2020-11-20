@@ -22,14 +22,14 @@ namespace MediaPlayer
         {
             PauseButton.Visibility = Visibility.Visible;
             PlayButton.Visibility = Visibility.Collapsed;
-           // MediaplayerElement.Play();
+            // MediaplayerElement.Play();
         }
 
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
             PauseButton.Visibility = Visibility.Collapsed;
             PlayButton.Visibility = Visibility.Visible;
-           // MediaplayerElement.Pause();
+            // MediaplayerElement.Pause();
         }
 
         private void LibraryRB_Checked(object sender, RoutedEventArgs e)
@@ -48,7 +48,7 @@ namespace MediaPlayer
             DataGridLibrary.Visibility = Visibility.Hidden;
             DataGridPlaylis.Visibility = Visibility.Visible;
             PlaylistLbox.Visibility = Visibility.Visible;
-            
+
             List<Playlist> playlists = _repository.GetPlaylists();
             PlaylistLbox.DisplayMemberPath = "Name";
             PlaylistLbox.SelectedValuePath = "Id";
@@ -61,7 +61,7 @@ namespace MediaPlayer
 
         }
 
-        private void PlaylistLbox_Selected(object sender, RoutedEventArgs e)
+        private void PlaylistLbox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             List<Track> tracks = _repository.GetTracksFromPlaylist(PlaylistLbox.SelectedValue);
             DataGridPlaylis.ItemsSource = tracks;

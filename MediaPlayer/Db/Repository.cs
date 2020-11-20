@@ -81,7 +81,9 @@ namespace MediaPlayer.Db
                 command.Parameters.AddWithValue("@Id", index);
                 DataTable TracksFromPlaylistTable = new DataTable();
                 adapter.Fill(TracksFromPlaylistTable);
+
             }
+
             SqlCommand cmd = _con.CreateCommand();
             cmd.CommandText = "select * from TracksFromPlaylistTable";
 
@@ -99,6 +101,7 @@ namespace MediaPlayer.Db
                 };
                 tracksfromplaylists.Add(tp);
             }
+            _con.Close();
             return tracksfromplaylists;
 
         }

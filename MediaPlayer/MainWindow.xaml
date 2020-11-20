@@ -121,7 +121,7 @@
                     <DataGridTextColumn Header="Gengre" FontSize="20" CanUserResize="False" Width="200"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <ListBox x:Name="PlaylistLbox" Margin="10,0,10,728" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" SelectionMode="Single" Selected="PlaylistLbox_Selected" />
+            <ListBox x:Name="PlaylistLbox" Margin="10,0,10,728" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" SelectionMode="Single" SelectionChanged="PlaylistLbox_SelectionChanged" />
 
             <MediaElement x:Name="MediaplayerElement" HorizontalAlignment="Stretch" Height="0" VerticalAlignment="Stretch" Width="0" Volume="1" OpacityMask="#00000000" Visibility="Collapsed" Opacity="0"/>
         </Grid>
