@@ -3,6 +3,7 @@ using MediaPlayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Windows;
 
 namespace MediaPlayer
@@ -63,12 +64,12 @@ namespace MediaPlayer
 
         private void PlaylistLbox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            DataTable tracksfromplaylist = _repository.GetTracksFromPlaylist(PlaylistLbox.SelectedValue);
+            List<Track> tracks = _repository.GetTracksFromPlaylist(PlaylistLbox.SelectedValue);
 
 
             DataGridPlaylis.DisplayMemberPath = "Name";
             DataGridPlaylis.SelectedValuePath = "Id";
-            DataGridPlaylis.DataContext = tracksfromplaylist;
+            DataGridPlaylis.ItemsSource = tracks;
         }
 
         private void EndTrackBtn_Click(object sender, RoutedEventArgs e)
@@ -96,16 +97,23 @@ namespace MediaPlayer
 
         }
 
-        private void SearchTb_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                for(int i =1; i < DataGridLibrary.Items.Count; i++)
-                {
-                   
-                }
-            }
             
+        }
+
+        private void DataGridLibrary_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void SearchTb_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            var filter = (DataGridLibrary.ItemsSource as List<Track>).Where(t => t.Name.Contains(SearchTb.Text));
+            if (filter != null)
+                DataGridLibrary.ItemsSource = filter;
         }
     }
 }

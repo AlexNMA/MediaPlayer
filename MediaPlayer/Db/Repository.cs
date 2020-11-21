@@ -70,19 +70,43 @@ namespace MediaPlayer.Db
             return playlists;
         }
 
-        public DataTable GetTracksFromPlaylist(object index)
+        public List<Track> GetTracksFromPlaylist(object index)
         {
-            DataTable TracksFromPlaylistTable = new DataTable();
-            string query = "select t.* from TrackPlaylist tp inner join Track t on t.Id = tp.TrackId where tp.PlaylistId = @TrackId";
-            using (_con)
-                using(SqlCommand command = new SqlCommand(query, _con))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+            if (index == null)
+            {
+                return new List<Track>();
+            }
+            List<Track> tracks = new List<Track>();
+            string query = @"
+select t.*
+from TrackPlaylist tp
+inner join Track t
+    on t.Id = tp.TrackId
+where tp.PlaylistId = @TrackId
+";
+            _con.Open();
+            using (SqlCommand command = new SqlCommand(query, _con))
             {
                 command.Parameters.AddWithValue("@TrackId", index);
-                adapter.Fill(TracksFromPlaylistTable);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Track t = new Track
+                    {
+                        Id = reader.GetInt32(0),
+                        Name = reader.GetString(1),
+                        Artist = reader.GetString(2),
+                        Album = reader.GetString(3),
+                        AlbumArt = reader.GetString(4),
+                        GenreId = reader.GetInt32(5)
+                    };
+                    tracks.Add(t);
+                }
             }
             _con.Close();
-            return TracksFromPlaylistTable;
+
+
+            return tracks;
 
         }
 
