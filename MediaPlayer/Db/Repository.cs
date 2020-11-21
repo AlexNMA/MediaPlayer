@@ -70,39 +70,19 @@ namespace MediaPlayer.Db
             return playlists;
         }
 
-        public List<Track> GetTracksFromPlaylist(object index)
+        public DataTable GetTracksFromPlaylist(object index)
         {
-            _con.Open();
-            List<Track> tracksfromplaylists = new List<Track>();
-            string query = "select t.* from TrackPlaylist tp inner join Track t on t.Id = tp.TrackId where tp.PlaylistId = @Id";
-            using (SqlCommand command = new SqlCommand(query, _con))
+            DataTable TracksFromPlaylistTable = new DataTable();
+            string query = "select t.* from TrackPlaylist tp inner join Track t on t.Id = tp.TrackId where tp.PlaylistId = @TrackId";
+            using (_con)
+                using(SqlCommand command = new SqlCommand(query, _con))
             using (SqlDataAdapter adapter = new SqlDataAdapter(command))
             {
-                command.Parameters.AddWithValue("@Id", index);
-                DataTable TracksFromPlaylistTable = new DataTable();
+                command.Parameters.AddWithValue("@TrackId", index);
                 adapter.Fill(TracksFromPlaylistTable);
-
-            }
-
-            SqlCommand cmd = _con.CreateCommand();
-            cmd.CommandText = "select * from TracksFromPlaylistTable";
-
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                Track tp = new Track()
-                {
-                    Id = reader.GetInt32(0),
-                    Name = reader.GetString(1),
-                    Artist = reader.GetString(2),
-                    Album = reader.GetString(3),
-                    AlbumArt = reader.GetString(4),
-                    GenreId = reader.GetInt32(5)
-                };
-                tracksfromplaylists.Add(tp);
             }
             _con.Close();
-            return tracksfromplaylists;
+            return TracksFromPlaylistTable;
 
         }
 
