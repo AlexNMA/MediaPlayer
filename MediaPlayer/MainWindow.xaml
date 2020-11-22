@@ -186,11 +186,11 @@
                          TextChanged="SearchTb_TextChanged" />
             </StackPanel>
             <DataGrid x:Name="DataGridLibrary"
-                      
                       Grid.Row="1"
+                      IsReadOnly="True"
                       Background="{x:Null}"
                       BorderBrush="{x:Null}"
-                      Foreground="Black"
+                      Foreground="White"
                       FontSize="20"
                       GridLinesVisibility="None"
                       FontStretch="Normal"
@@ -198,7 +198,11 @@
                       AutoGenerateColumns="True"
                       MouseDoubleClick="DataGridLibrary_MouseDoubleClick"
                       CanUserAddRows="False"
-                      CanUserDeleteRows="False">
+                      CanUserDeleteRows="False"
+                      Style="{DynamicResource StyleDataGridTemplate}"
+                      AlternatingRowBackground="#00000000"
+                      RowBackground="#00000000"
+                      ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Add to queue"
@@ -212,12 +216,19 @@
                     <DataGridTextColumn Header="Gengre" FontSize="20" CanUserResize="False" Width="200"/>
                 </DataGrid.Columns>-->
             </DataGrid>
-            <DataGrid x:Name="DataGridPlaylis"
+            <DataGrid ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}" Style="{DynamicResource StyleDataGridTemplate}"
+                      x:Name="DataGridPlaylis"
                       Grid.Row="1"
+                      GridLinesVisibility="None"
+                      IsReadOnly="True"
                       Margin="10,204,10,0"
-                      Background="{x:Null}"
-                      BorderBrush="{x:Null}"
-                      Foreground="Black">
+                      Background="#008B0000"
+                      Foreground="White"
+                      BorderBrush="#008B0000"
+                      FontSize="20"
+                      RowBackground="#008B0000"
+                      AlternatingRowBackground="#00000000"
+                      RowDetailsVisibilityMode="Collapsed">
                 <!--<DataGrid.Columns>
                     <DataGridTextColumn Header="Name" FontSize="20" CanUserResize="False" Width="200"   />
                     <DataGridTextColumn Header="Artist" FontSize="20" CanUserResize="False" Width="200"/>
@@ -226,14 +237,15 @@
                 </DataGrid.Columns>-->
 
             </DataGrid>
-            <ListBox x:Name="PlaylistLbox"
+            <ListBox Style="{DynamicResource ListBoxStyle}" x:Name="PlaylistLbox"
                      Margin="10,0,10,728"
                      Grid.Row="1"
                      Background="{x:Null}"
                      BorderBrush="{x:Null}"
-                     Foreground="Black"
+                     Foreground="White"
                      SelectionMode="Single"
-                     SelectionChanged="PlaylistLbox_SelectionChanged" />
+                     SelectionChanged="PlaylistLbox_SelectionChanged"
+                     FontSize="25" />
 
             <MediaElement x:Name="MediaplayerElement"
                           HorizontalAlignment="Stretch"
