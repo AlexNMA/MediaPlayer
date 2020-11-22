@@ -117,24 +117,46 @@ where tp.PlaylistId = @TrackId";
             {
                 return new Uri("C:/tracksFolder");
             }
-            //List<TrackFile> tracksfile = new List<TrackFile>();
+
             Uri uri = new Uri("C:/tracksFolder");
-            string query = @"select Track.Url
+            string query = @"
+select Track.Url
 from Track
 where Track.Id = @Id";
             _con.Open();
-            
+
             using (SqlCommand command = new SqlCommand(query, _con))
             {
                 command.Parameters.AddWithValue("@Id", index);
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                     uri = new Uri(reader.GetString(0));
-                    
+                    uri = new Uri(reader.GetString(0));
+
                 }
             }
             _con.Close();
+            return uri;
+        }
+        public Uri GetTrackArt(object index)
+        {
+            Uri uri = new Uri("C:/ tracksFolder/artImages");
+            string query = @"
+select Track.AlbumArt
+from Track
+where Track.Id = @Id";
+            _con.Open();
+            using (SqlCommand command = new SqlCommand(query, _con))
+            {
+                command.Parameters.AddWithValue("@Id", index);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    uri = new Uri(reader.GetString(0));
+                }
+                
+            }
+                _con.Close();
             return uri;
         }
 

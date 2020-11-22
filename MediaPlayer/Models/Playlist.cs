@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MediaPlayer.Models
+﻿namespace MediaPlayer.Models
 {
     public class Playlist
     {

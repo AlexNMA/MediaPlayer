@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace MediaPlayer
@@ -12,20 +13,22 @@ namespace MediaPlayer
 
     public partial class MainWindow : Window
     {
-        int previous = 1;
         public MainWindow()
         {
             InitializeComponent();
-            MediaplayerElement.Source = new Uri("C:/tracksFolder/Skillet - Save Me.mp3");
-            
+
+
             _playbackTimer = new DispatcherTimer();
             _playbackTimer.Interval = TimeSpan.FromSeconds(1);
             _playbackTimer.Tick += _playbackTimer_Tick;
+            Timer1Label.ContentStringFormat = "{0:mm\\:ss}";
         }
 
         private void _playbackTimer_Tick(object sender, EventArgs e)
         {
             TrackBarSlider.Value = MediaplayerElement.Position.TotalSeconds;
+            Timer1Label.Content = MediaplayerElement.Position.Duration();
+
         }
 
         private Repository _repository = new Repository();
@@ -48,7 +51,7 @@ namespace MediaPlayer
 
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
-            MediaplayerElement.Stop();
+            MediaplayerElement.Pause();
             PauseButton.Visibility = Visibility.Collapsed;
             PlayButton.Visibility = Visibility.Visible;
 
@@ -93,22 +96,21 @@ namespace MediaPlayer
 
         private void FirstTrackBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (previous == 1)
+            if (MediaplayerElement.Position.TotalSeconds > 5)
             {
                 MediaplayerElement.Position = TimeSpan.Zero;
-                previous++;
             }
             else
             {
-                previous = 1;
+
             }
 
         }
 
         private void TrackBarSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            TrackBarSlider.Maximum = MediaplayerElement.Position.TotalSeconds;
-            MediaplayerElement.Position = new TimeSpan((int)TrackBarSlider.Value);
+            //TrackBarSlider.Maximum = MediaplayerElement.Position.TotalSeconds;
+            //MediaplayerElement.Position = new TimeSpan((int)TrackBarSlider.Value);
         }
 
 
@@ -121,33 +123,41 @@ namespace MediaPlayer
         private void DataGridLibrary_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Track selectedTrack = DataGridLibrary.SelectedItem as Track;
-            PlayTrack(selectedTrack.Id);
+            PlayTrack(selectedTrack.Id, selectedTrack.Id);
         }
 
         private void DataGridPlaylis_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Track selectedTrack = DataGridPlaylis.SelectedItem as Track;
-            PlayTrack(selectedTrack.Id);
+            PlayTrack(selectedTrack.Id, selectedTrack.Id);
         }
 
-        private void PlayTrack(int trackId)
+        private void PlayTrack(int trackId, int artId)
         {
             Uri trackFiles = _repository.GetTrackFiles(trackId);
-            
+            Uri artAlbum = _repository.GetTrackArt(artId);
+            AlbumArtImage.Source = new BitmapImage(artAlbum); 
+            MediaplayerElement.Source = trackFiles;
+            MediaplayerElement.Play();
+
+        }
+
+        private void MediaplayerElement_MediaOpened(object sender, RoutedEventArgs e)
+        {
             TimeSpan time = MediaplayerElement.NaturalDuration.TimeSpan;
             TrackBarSlider.Minimum = 0;
             TrackBarSlider.Maximum = time.TotalSeconds;
+            Timer2Label.ContentStringFormat = "{0:mm\\:ss}";
+            Timer2Label.Content = time;
             TrackBarSlider.Value = 0;
-            
+
             PauseButton.Visibility = Visibility.Visible;
             PlayButton.Visibility = Visibility.Collapsed;
 
-            MediaplayerElement.Source = trackFiles;
-            MediaplayerElement.Play();
-            
-            _playbackTimer.Start();
-        }
 
+            _playbackTimer.Start();
+
+        }
         private void SearchTb_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             var filter = (DataGridLibrary.ItemsSource as List<Track>).Where(t => t.Name.Contains(SearchTb.Text));
