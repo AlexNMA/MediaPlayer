@@ -224,7 +224,8 @@
                       FontSize="20"
                       RowBackground="#008B0000"
                       AlternatingRowBackground="#00000000"
-                      RowDetailsVisibilityMode="Collapsed">
+                      RowDetailsVisibilityMode="Collapsed"
+                      MouseDoubleClick="DataGridPlaylis_MouseDoubleClick">
                 <!--<DataGrid.Columns>
                     <DataGridTextColumn Header="Name" FontSize="20" CanUserResize="False" Width="200"   />
                     <DataGridTextColumn Header="Artist" FontSize="20" CanUserResize="False" Width="200"/>

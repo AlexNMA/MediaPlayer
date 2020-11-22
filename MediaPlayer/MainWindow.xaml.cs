@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace MediaPlayer
 {
@@ -16,11 +17,24 @@ namespace MediaPlayer
         {
             InitializeComponent();
             MediaplayerElement.Source = new Uri("C:/tracksFolder/Skillet - Save Me.mp3");
+            
+            _playbackTimer = new DispatcherTimer();
+            _playbackTimer.Interval = TimeSpan.FromSeconds(1);
+            _playbackTimer.Tick += _playbackTimer_Tick;
+        }
 
+        private void _playbackTimer_Tick(object sender, EventArgs e)
+        {
+            TrackBarSlider.Value = MediaplayerElement.Position.TotalSeconds;
         }
 
         private Repository _repository = new Repository();
+        private DispatcherTimer _playbackTimer;
 
+        private void MediaPlayerWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            LibraryRB.IsChecked = true;
+        }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
@@ -28,7 +42,8 @@ namespace MediaPlayer
             MediaplayerElement.Play();
             PauseButton.Visibility = Visibility.Visible;
             PlayButton.Visibility = Visibility.Collapsed;
-            TrackBarSlider.Maximum = MediaplayerElement.Position.TotalSeconds;
+
+            _playbackTimer.Start();
         }
 
         private void PauseButton_Click(object sender, RoutedEventArgs e)
@@ -37,6 +52,7 @@ namespace MediaPlayer
             PauseButton.Visibility = Visibility.Collapsed;
             PlayButton.Visibility = Visibility.Visible;
 
+            _playbackTimer.Stop();
         }
 
         private void LibraryRB_Checked(object sender, RoutedEventArgs e)
@@ -62,10 +78,6 @@ namespace MediaPlayer
             PlaylistLbox.ItemsSource = playlists;
         }
 
-        private void MediaPlayerWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            LibraryRB.IsChecked = true;
-        }
 
         private void PlaylistLbox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
@@ -108,18 +120,32 @@ namespace MediaPlayer
 
         private void DataGridLibrary_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            Track selectedTrack = DataGridLibrary.SelectedItem as Track;
+            PlayTrack(selectedTrack.Id);
+        }
 
-            Uri trackFiles = _repository.GetTrackFiles(DataGridLibrary.SelectedIndex + 1);
+        private void DataGridPlaylis_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Track selectedTrack = DataGridPlaylis.SelectedItem as Track;
+            PlayTrack(selectedTrack.Id);
+        }
 
-
-
+        private void PlayTrack(int trackId)
+        {
+            Uri trackFiles = _repository.GetTrackFiles(trackId);
+            
+            TimeSpan time = MediaplayerElement.NaturalDuration.TimeSpan;
+            TrackBarSlider.Minimum = 0;
+            TrackBarSlider.Maximum = time.TotalSeconds;
+            TrackBarSlider.Value = 0;
+            
+            PauseButton.Visibility = Visibility.Visible;
+            PlayButton.Visibility = Visibility.Collapsed;
 
             MediaplayerElement.Source = trackFiles;
             MediaplayerElement.Play();
-            TimeSpan time = new TimeSpan();
-            time = MediaplayerElement.Position.Duration();
-            //AlbumArtImage.Source
-
+            
+            _playbackTimer.Start();
         }
 
         private void SearchTb_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -128,5 +154,6 @@ namespace MediaPlayer
             if (filter != null)
                 DataGridLibrary.ItemsSource = filter;
         }
+
     }
 }
