@@ -209,14 +209,10 @@
                                   Click="MenuItem_Click" />
                     </ContextMenu>
                 </DataGrid.ContextMenu>
-                <!--<DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" FontSize="20" CanUserResize="False" Width="200"   />
-                    <DataGridTextColumn Header="Artist" FontSize="20" CanUserResize="False" Width="200"/>
-                    <DataGridTextColumn Header="Album" FontSize="20" CanUserResize="False" Width="200"/>
-                    <DataGridTextColumn Header="Gengre" FontSize="20" CanUserResize="False" Width="200"/>
-                </DataGrid.Columns>-->
+
             </DataGrid>
-            <DataGrid ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}" Style="{DynamicResource StyleDataGridTemplate}"
+            <DataGrid ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}"
+                      Style="{DynamicResource StyleDataGridTemplate}"
                       x:Name="DataGridPlaylis"
                       Grid.Row="1"
                       GridLinesVisibility="None"
@@ -237,7 +233,8 @@
                 </DataGrid.Columns>-->
 
             </DataGrid>
-            <ListBox Style="{DynamicResource ListBoxStyle}" x:Name="PlaylistLbox"
+            <ListBox Style="{DynamicResource ListBoxStyle}"
+                     x:Name="PlaylistLbox"
                      Margin="10,0,10,728"
                      Grid.Row="1"
                      Background="{x:Null}"
@@ -252,10 +249,12 @@
                           Height="0"
                           VerticalAlignment="Stretch"
                           Width="0"
-                          Volume="1"
-                          OpacityMask="#00000000"
+                          OpacityMask="#000000FF"
+                          Opacity="0"
                           Visibility="Collapsed"
-                          Opacity="0" />
+                          Volume="1"
+                          LoadedBehavior="Manual"
+                          UnloadedBehavior ="Manual" />
         </Grid>
         <Grid Grid.Column="2"
               Background="#FF252525"
@@ -269,8 +268,8 @@
                 <RowDefinition Height="22.04" />
                 <RowDefinition Height="227.96" />
                 <RowDefinition Height="60" />
-                <RowDefinition Height="100" />
                 <RowDefinition Height="50" />
+                <RowDefinition Height="100" />
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
@@ -305,7 +304,8 @@
                   HorizontalAlignment="Center"
                   Width="404"
                   Grid.Column="1">
-                <Image Width="200"
+                <Image x:Name="AlbumArtImage"
+                       Width="200"
                        Source="/resource/video.png"
                        Margin="0,40,0,0" />
             </Grid>
@@ -327,7 +327,7 @@
                        Margin="124,30,124,0" />
             </Grid>
 
-            <StackPanel Grid.Row="3"
+            <StackPanel Grid.Row="4"
                         Orientation="Horizontal"
                         Width="235"
                         Grid.Column="1">
@@ -369,7 +369,7 @@
                           Data="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
                 </Button>
             </StackPanel>
-            <StackPanel Grid.Row="4"
+            <StackPanel Grid.Row="3"
                         Orientation="Vertical"
                         Grid.ColumnSpan="2"
                         Margin="5,5,5,5">

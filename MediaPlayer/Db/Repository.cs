@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 
 namespace MediaPlayer.Db
 {
@@ -41,7 +39,7 @@ on t.GenreId = g.Id";
                     Name = reader.GetString(1),
                     Artist = reader.GetString(2),
                     Album = reader.GetString(3),
-                    GenreName = reader.GetString(4)
+                    Genre = reader.GetString(4)
                 };
                 tracks.Add(t);
             }
@@ -101,7 +99,7 @@ where tp.PlaylistId = @TrackId";
                         Name = reader.GetString(1),
                         Artist = reader.GetString(2),
                         Album = reader.GetString(3),
-                        GenreName = reader.GetString(4)
+                        Genre = reader.GetString(4)
                     };
                     tracks.Add(t);
                 }
@@ -113,5 +111,33 @@ where tp.PlaylistId = @TrackId";
 
         }
 
+        public Uri GetTrackFiles(object index)
+        {
+            if (index == null)
+            {
+                return new Uri("C:/tracksFolder");
+            }
+            //List<TrackFile> tracksfile = new List<TrackFile>();
+            Uri uri = new Uri("C:/tracksFolder");
+            string query = @"select Track.Url
+from Track
+where Track.Id = @Id";
+            _con.Open();
+            
+            using (SqlCommand command = new SqlCommand(query, _con))
+            {
+                command.Parameters.AddWithValue("@Id", index);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                     uri = new Uri(reader.GetString(0));
+                    
+                }
+            }
+            _con.Close();
+            return uri;
+        }
+
     }
+
 }
