@@ -3,6 +3,7 @@ using MediaPlayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
 
@@ -110,7 +111,7 @@ namespace MediaPlayer
         }
 
         private void SearchTb_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
+        {   
             var filter = (DataGridLibrary.ItemsSource as List<Track>).Where(t => t.Name.Contains(SearchTb.Text));
             if (filter != null)
                 DataGridLibrary.ItemsSource = filter;

@@ -26,7 +26,11 @@ namespace MediaPlayer.Db
             List<Track> tracks = new List<Track>();
 
             SqlCommand command = _con.CreateCommand();
-            command.CommandText = "select * from Track";
+            command.CommandText = @"
+select t.Id, t.Name, t.Artist, t.Album, g.GenreName
+from Track t
+join Genre g
+on t.GenreId = g.Id";
 
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
@@ -37,8 +41,7 @@ namespace MediaPlayer.Db
                     Name = reader.GetString(1),
                     Artist = reader.GetString(2),
                     Album = reader.GetString(3),
-                    AlbumArt = reader.GetString(4),
-                    GenreId = reader.GetInt32(5)
+                    GenreName = reader.GetString(4)
                 };
                 tracks.Add(t);
             }
@@ -78,12 +81,13 @@ namespace MediaPlayer.Db
             }
             List<Track> tracks = new List<Track>();
             string query = @"
-select t.*
-from TrackPlaylist tp
+select t.Id, t.Name, t.Artist, t.Album, g.GenreName
+from ((TrackPlaylist tp
 inner join Track t
-    on t.Id = tp.TrackId
-where tp.PlaylistId = @TrackId
-";
+    on t.Id = tp.TrackId)
+	inner join Genre g
+	on t.GenreId = g.Id)
+where tp.PlaylistId = @TrackId";
             _con.Open();
             using (SqlCommand command = new SqlCommand(query, _con))
             {
@@ -97,8 +101,7 @@ where tp.PlaylistId = @TrackId
                         Name = reader.GetString(1),
                         Artist = reader.GetString(2),
                         Album = reader.GetString(3),
-                        AlbumArt = reader.GetString(4),
-                        GenreId = reader.GetInt32(5)
+                        GenreName = reader.GetString(4)
                     };
                     tracks.Add(t);
                 }

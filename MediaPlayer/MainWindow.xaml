@@ -186,16 +186,19 @@
                          TextChanged="SearchTb_TextChanged" />
             </StackPanel>
             <DataGrid x:Name="DataGridLibrary"
+                      
                       Grid.Row="1"
                       Background="{x:Null}"
                       BorderBrush="{x:Null}"
                       Foreground="Black"
                       FontSize="20"
-                      GridLinesVisibility="All"
+                      GridLinesVisibility="None"
                       FontStretch="Normal"
                       d:IsHidden="True"
                       AutoGenerateColumns="True"
-                      MouseDoubleClick="DataGridLibrary_MouseDoubleClick">
+                      MouseDoubleClick="DataGridLibrary_MouseDoubleClick"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Add to queue"
