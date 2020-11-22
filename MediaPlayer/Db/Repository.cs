@@ -154,10 +154,51 @@ where Track.Id = @Id";
                 {
                     uri = new Uri(reader.GetString(0));
                 }
-                
+
             }
-                _con.Close();
+            _con.Close();
             return uri;
+        }
+        public void AddInPlaylist(object TrackId, object PlaylistId)
+        {
+            string cmdstr = @"
+insert into TrackPlaylist (TrackId, PlaylistId)
+values(@TrackId, @PlaylistId)";
+
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.Connection = _con;
+                cmd.CommandText = cmdstr;
+                cmd.Parameters.AddWithValue("@TrackId", TrackId);
+                cmd.Parameters.AddWithValue("@PlaylistId", PlaylistId);
+                try
+                {
+                    _con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+               
+                
+
+            }
+            _con.Close();
+        }
+        public void RemoveFromPlaylist(object index)
+        {
+            string cmdstr = @"
+delete from TrackPlaylist
+where TrackId = " + index;
+            _con.Open();
+            using (SqlCommand cmd = new SqlCommand(cmdstr, _con))
+            {
+                
+                cmd.ExecuteNonQuery();
+            }
+
+            _con.Close();
         }
 
     }

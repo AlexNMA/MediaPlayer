@@ -205,6 +205,8 @@
                       ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
+                        <MenuItem Header="Add to My Playlist"
+                                  Click="MenuItem_Click_addToPlaylis" />
                         <MenuItem Header="Add to queue"
                                   Click="MenuItem_Click" />
                     </ContextMenu>
@@ -226,12 +228,13 @@
                       AlternatingRowBackground="#00000000"
                       RowDetailsVisibilityMode="Collapsed"
                       MouseDoubleClick="DataGridPlaylis_MouseDoubleClick">
-                <!--<DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" FontSize="20" CanUserResize="False" Width="200"   />
-                    <DataGridTextColumn Header="Artist" FontSize="20" CanUserResize="False" Width="200"/>
-                    <DataGridTextColumn Header="Album" FontSize="20" CanUserResize="False" Width="200"/>
-                    <DataGridTextColumn Header="Gengre" FontSize="20" CanUserResize="False" Width="200"/>
-                </DataGrid.Columns>-->
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Remove from playlist"
+                                  Click="MenuItem_Click_RemoveFromPlaylist" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+
 
             </DataGrid>
             <ListBox Style="{DynamicResource ListBoxStyle}"
@@ -314,13 +317,15 @@
 
             <Grid Grid.Row="2"
                   Grid.Column="1">
-                <Label Content="Track - Artist"
+                <Label x:Name="TrackAndArtistLabel"
+                       Content="Track - Artist"
                        Width="200"
                        Foreground="White"
                        FontSize="16"
                        HorizontalContentAlignment="Center"
                        Margin="124,0,124,30" />
-                <Label Content="Album"
+                <Label x:Name="AlbumLabel"
+                       Content="Album"
                        Width="200"
                        Foreground="#FFC9C9C9"
                        FontSize="13"

@@ -119,24 +119,36 @@ namespace MediaPlayer
         {
 
         }
+        private void MenuItem_Click_addToPlaylis(object sender, RoutedEventArgs e)
+        {
+            Track selectedTrack = DataGridLibrary.SelectedItem as Track;
+            _repository.AddInPlaylist(selectedTrack.Id, 1);
+        }
 
+        private void MenuItem_Click_RemoveFromPlaylist(object sender, RoutedEventArgs e)
+        {
+            Track selectedTrack = DataGridPlaylis.SelectedItem as Track;
+            _repository.RemoveFromPlaylist(selectedTrack.Id);
+        }
         private void DataGridLibrary_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Track selectedTrack = DataGridLibrary.SelectedItem as Track;
-            PlayTrack(selectedTrack.Id, selectedTrack.Id);
+            PlayTrack(selectedTrack.Id, selectedTrack.Id, selectedTrack.Name, selectedTrack.Artist, selectedTrack.Album);
         }
 
         private void DataGridPlaylis_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Track selectedTrack = DataGridPlaylis.SelectedItem as Track;
-            PlayTrack(selectedTrack.Id, selectedTrack.Id);
+            PlayTrack(selectedTrack.Id, selectedTrack.Id, selectedTrack.Name, selectedTrack.Artist, selectedTrack.Album);
         }
 
-        private void PlayTrack(int trackId, int artId)
+        private void PlayTrack(int trackId, int artId, string trackName,string ArtistName, string albumName)
         {
             Uri trackFiles = _repository.GetTrackFiles(trackId);
             Uri artAlbum = _repository.GetTrackArt(artId);
-            AlbumArtImage.Source = new BitmapImage(artAlbum); 
+            AlbumArtImage.Source = new BitmapImage(artAlbum);
+            TrackAndArtistLabel.Content = trackName + " - " + ArtistName;
+            AlbumLabel.Content = albumName;
             MediaplayerElement.Source = trackFiles;
             MediaplayerElement.Play();
 
@@ -163,6 +175,11 @@ namespace MediaPlayer
             var filter = (DataGridLibrary.ItemsSource as List<Track>).Where(t => t.Name.Contains(SearchTb.Text));
             if (filter != null)
                 DataGridLibrary.ItemsSource = filter;
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+
         }
 
     }
