@@ -4,10 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace MediaPlayer
 {
@@ -19,7 +16,7 @@ namespace MediaPlayer
         {
             InitializeComponent();
             MediaplayerElement.Source = new Uri("C:/tracksFolder/Skillet - Save Me.mp3");
-            
+
         }
 
         private Repository _repository = new Repository();
@@ -27,7 +24,7 @@ namespace MediaPlayer
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
             MediaplayerElement.Play();
             PauseButton.Visibility = Visibility.Visible;
             PlayButton.Visibility = Visibility.Collapsed;
@@ -98,7 +95,7 @@ namespace MediaPlayer
 
         private void TrackBarSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            //TrackBarSlider.Maximum = MediaplayerElement.Position.TotalSeconds;
+            TrackBarSlider.Maximum = MediaplayerElement.Position.TotalSeconds;
             MediaplayerElement.Position = new TimeSpan((int)TrackBarSlider.Value);
         }
 
@@ -121,7 +118,7 @@ namespace MediaPlayer
             MediaplayerElement.Play();
             TimeSpan time = new TimeSpan();
             time = MediaplayerElement.Position.Duration();
-            // AlbumArtImage.Source
+            //AlbumArtImage.Source
 
         }
 
