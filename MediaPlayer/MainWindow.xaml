@@ -237,7 +237,7 @@
                         <MenuItem Header="Remove from playlist"
                                   Click="MenuItem_Click_RemoveFromPlaylist" />
                         <MenuItem Header="Add to queue"
-                                  Click="MenuItem_Click_AddToQueuePlaylis"/>
+                                  Click="MenuItem_Click_AddToQueuePlaylis" />
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
@@ -262,7 +262,7 @@
                           OpacityMask="#000000FF"
                           Opacity="0"
                           Visibility="Collapsed"
-                          Volume="1"
+                          Volume="0.03"
                           LoadedBehavior="Manual"
                           UnloadedBehavior="Manual"
                           MediaOpened="MediaplayerElement_MediaOpened" />
@@ -340,7 +340,7 @@
                         Style="{DynamicResource PlaybackButtonStyle}"
                         Width="60"
                         Height="60"
-                        Click="FirstTrackBtn_Click">
+                        Click="PreviousTrackBtn_Click">
                     <Path Style="{DynamicResource PlaybackButtonPathStyle}"
                           Data="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
                 </Button>
@@ -369,7 +369,7 @@
                         Margin="5,0,0,0"
                         Width="60"
                         Height="60"
-                        Click="EndTrackBtn_Click">
+                        Click="NextTrackBtn_Click">
                     <Path Style="{DynamicResource PlaybackButtonPathStyle}"
                           Data="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
                 </Button>
@@ -401,27 +401,16 @@
             <Grid Grid.Column="1"
                   Grid.Row="5"
                   Background="#00000000">
-                <ListBox x:Name="Queue_ListBox"
-                         Style="{DynamicResource ListBoxStyle}"
-                         Background="#00000000"
-                         Foreground="#CCFFFFFF"
-                         FontSize="18">
-                    <ListBox.ContextMenu>
+                <DataGrid x:Name="QueueGrid"
+                          ItemsSource="{Binding QueueManager.Queue}">
+                    <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem  Header="Remove from queue"
-                                        Click="MenuItem_Click_RemoveFromQueue"/>
+                                       Click="MenuItem_Click_RemoveFromQueue" />
                         </ContextMenu>
-                    </ListBox.ContextMenu>
-                </ListBox>
-
+                    </DataGrid.ContextMenu>
+                </DataGrid>
             </Grid>
-
-
-
         </Grid>
-
-
-
-
     </Grid>
 </Window>
