@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MediaPlayer.Models
+﻿namespace MediaPlayer.Models
 {
     public class History
     {
         public int Id { get; set; }
         public int TrackId { get; set; }
+        public string Name { get; set; }
         public History()
         {
 
@@ -16,6 +13,12 @@ namespace MediaPlayer.Models
         {
             Id = id;
             TrackId = trackId;
+        }
+        public History(int id, int trackId, string name)
+        {
+            Id = id;
+            TrackId = trackId;
+            Name = name;
         }
     }
 }

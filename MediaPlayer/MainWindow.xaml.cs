@@ -14,9 +14,11 @@ namespace MediaPlayer
     public partial class MainWindow : Window
     {
         List<History> histories;
+        List<History> queue;
+        int queueposition;
         int historyposition;
         int trackposition;
-        bool queue;
+        bool queueState;
 
         public MainWindow()
         {
@@ -28,9 +30,11 @@ namespace MediaPlayer
             _playbackTimer.Tick += _playbackTimer_Tick;
             Timer1Label.ContentStringFormat = "{0:mm\\:ss}";
             histories = new List<History>();
+            queue = new List<History>();
+            queueposition = 0;
             historyposition = 0;
             trackposition = 0;
-            queue = true;
+            queueState = false;
         }
 
         private void _playbackTimer_Tick(object sender, EventArgs e)
@@ -69,7 +73,7 @@ namespace MediaPlayer
 
         private void LibraryRB_Checked(object sender, RoutedEventArgs e)
         {
-            
+
             DataGridLibrary.Visibility = Visibility.Visible;
             DataGridPlaylis.Visibility = Visibility.Hidden;
             PlaylistLbox.Visibility = Visibility.Hidden;
@@ -79,7 +83,7 @@ namespace MediaPlayer
 
         private void PlayListRB_Checked(object sender, RoutedEventArgs e)
         {
-            
+
             DataGridLibrary.Visibility = Visibility.Hidden;
             DataGridPlaylis.Visibility = Visibility.Visible;
             PlaylistLbox.Visibility = Visibility.Visible;
@@ -155,17 +159,8 @@ namespace MediaPlayer
 
         }
 
-        private void TrackBarSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-
-        }
 
 
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         private void MenuItem_Click_addToPlaylis(object sender, RoutedEventArgs e)
         {
             Track selectedTrack = DataGridLibrary.SelectedItem as Track;
@@ -177,6 +172,7 @@ namespace MediaPlayer
             Track selectedTrack = DataGridPlaylis.SelectedItem as Track;
             _repository.RemoveFromPlaylist(selectedTrack.Id);
         }
+
         private void DataGridLibrary_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Track selectedTrack = DataGridLibrary.SelectedItem as Track;
@@ -224,15 +220,16 @@ namespace MediaPlayer
             _playbackTimer.Start();
 
         }
+
         private void SearchTb_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if(LibraryRB.IsChecked == true)
+            if (LibraryRB.IsChecked == true)
             {
-            var filter = (DataGridLibrary.ItemsSource as List<Track>).Where(t => t.Name.Contains(SearchTb.Text));
-            if (filter != null)
-                DataGridLibrary.ItemsSource = filter;
+                var filter = (DataGridLibrary.ItemsSource as List<Track>).Where(t => t.Name.Contains(SearchTb.Text));
+                if (filter != null)
+                    DataGridLibrary.ItemsSource = filter;
             }
-            else if(PlayListRB.IsChecked == true)
+            else if (PlayListRB.IsChecked == true)
             {
                 var filter = (DataGridPlaylis.ItemsSource as List<Track>).Where(t => t.Name.Contains(SearchTb.Text));
                 if (filter != null)
@@ -242,17 +239,59 @@ namespace MediaPlayer
 
         private void QueueButton_Click(object sender, RoutedEventArgs e)
         {
-            if (queue == false)
+            if (queueState == false)
             {
+
                 Queue_ListBox.Visibility = Visibility.Visible;
-                queue = true;
+                queueState = true;
+                RefreshQueue();
             }
             else
             {
                 Queue_ListBox.Visibility = Visibility.Hidden;
-                queue = false;
+                queueState = false;
+                RefreshQueue();
             }
-            
+
+        }
+
+        private void MenuItem_Click_addToQueue(object sender, RoutedEventArgs e)
+        {
+            Track selectedTrack = DataGridLibrary.SelectedItem as Track;
+            queue.Add(new History(queueposition, selectedTrack.Id, selectedTrack.Name));
+            RefreshQueue();
+            queueposition++;
+        }
+        private void TrackBarSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
+
+        private void MenuItem_Click_RemoveFromQueue(object sender, RoutedEventArgs e)
+        {
+            History selectedTrack = Queue_ListBox.SelectedItem as History;
+            queue.Remove(selectedTrack);
+            RefreshQueue();
+
+        }
+        private void RefreshQueue()
+        {
+            Queue_ListBox.DisplayMemberPath = "Name";
+            Queue_ListBox.SelectedValuePath = "TracksId";
+            Queue_ListBox.ItemsSource = queue;
+            Queue_ListBox.Items.Refresh();
+        }
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_Click_AddToQueuePlaylis(object sender, RoutedEventArgs e)
+        {
+            Track selectedTrack = DataGridPlaylis.SelectedItem as Track;
+            queue.Add(new History(queueposition, selectedTrack.Id, selectedTrack.Name));
+            RefreshQueue();
+            queueposition++;
         }
     }
 }

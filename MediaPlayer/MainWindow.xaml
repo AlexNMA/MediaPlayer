@@ -212,7 +212,7 @@
                         <MenuItem Header="Add to My Playlist"
                                   Click="MenuItem_Click_addToPlaylis" />
                         <MenuItem Header="Add to queue"
-                                  Click="MenuItem_Click" />
+                                  Click="MenuItem_Click_addToQueue" />
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
@@ -236,6 +236,8 @@
                     <ContextMenu>
                         <MenuItem Header="Remove from playlist"
                                   Click="MenuItem_Click_RemoveFromPlaylist" />
+                        <MenuItem Header="Add to queue"
+                                  Click="MenuItem_Click_AddToQueuePlaylis"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
@@ -282,15 +284,6 @@
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
-
-
-
-
-
-
-
-
-
 
             <Grid Grid.Row="6"
                   Grid.Column="1"
@@ -405,14 +398,21 @@
                        VerticalAlignment="Top"
                        Foreground="White" />
             </StackPanel>
-            <Grid x:Name="Queue_ListBox"
-                  Grid.Column="1"
+            <Grid Grid.Column="1"
                   Grid.Row="5"
-                  Background="#00000000"
-                  >
-                <ListBox Style="{DynamicResource ListBoxStyle}"
+                  Background="#00000000">
+                <ListBox x:Name="Queue_ListBox"
+                         Style="{DynamicResource ListBoxStyle}"
                          Background="#00000000"
-                         Foreground="#CCFFFFFF" />
+                         Foreground="#CCFFFFFF"
+                         FontSize="18">
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem  Header="Remove from queue"
+                                        Click="MenuItem_Click_RemoveFromQueue"/>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
 
             </Grid>
 
