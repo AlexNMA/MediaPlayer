@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="logo.png" />
+    <None Remove="resource\sound+.png" />
     <None Remove="sound-.png" />
     <None Remove="video.png" />
   </ItemGroup>
@@ -17,6 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resource\logo.png" />
+    <Resource Include="resource\sound+.png" />
     <Resource Include="resource\video.png" />
     <Resource Include="resource\sound-.png" />
   </ItemGroup>
