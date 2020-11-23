@@ -16,6 +16,7 @@ namespace MediaPlayer
         List<History> histories;
         int historyposition;
         int trackposition;
+        bool queue;
 
         public MainWindow()
         {
@@ -29,6 +30,7 @@ namespace MediaPlayer
             histories = new List<History>();
             historyposition = 0;
             trackposition = 0;
+            queue = true;
         }
 
         private void _playbackTimer_Tick(object sender, EventArgs e)
@@ -67,7 +69,7 @@ namespace MediaPlayer
 
         private void LibraryRB_Checked(object sender, RoutedEventArgs e)
         {
-            SearchPanel.Visibility = Visibility.Visible;
+            
             DataGridLibrary.Visibility = Visibility.Visible;
             DataGridPlaylis.Visibility = Visibility.Hidden;
             PlaylistLbox.Visibility = Visibility.Hidden;
@@ -77,7 +79,7 @@ namespace MediaPlayer
 
         private void PlayListRB_Checked(object sender, RoutedEventArgs e)
         {
-            SearchPanel.Visibility = Visibility.Hidden;
+            
             DataGridLibrary.Visibility = Visibility.Hidden;
             DataGridPlaylis.Visibility = Visibility.Visible;
             PlaylistLbox.Visibility = Visibility.Visible;
@@ -98,6 +100,7 @@ namespace MediaPlayer
 
         private void FirstTrackBtn_Click(object sender, RoutedEventArgs e)
         {
+            trackposition--;
             if (MediaplayerElement.Position.TotalSeconds > 5)
             {
                 MediaplayerElement.Position = TimeSpan.Zero;
@@ -107,15 +110,14 @@ namespace MediaPlayer
                 List<Track> tracks = new List<Track>();
                 foreach (History index in histories)
                 {
-                    if ((trackposition - 1) == index.Id )
+                    if ((trackposition) == index.Id)
                     {
                         tracks = _repository.GetOneTrack(index.TrackId);
                         foreach (Track track in tracks)
                         {
                             PlayTrack(track.Id, track.Name, track.Artist, track.Album);
-                            trackposition--;
                             break;
-                            
+
                         }
                     }
                 }
@@ -126,25 +128,25 @@ namespace MediaPlayer
 
         private void EndTrackBtn_Click(object sender, RoutedEventArgs e)
         {
+            trackposition++;
             bool t = true;
             List<Track> tracks = new List<Track>();
             foreach (History index in histories)
             {
-                if ((trackposition + 1) == index.Id)
+                if ((trackposition) == index.Id)
                 {
                     tracks = _repository.GetOneTrack(index.TrackId);
-                    foreach(Track track in tracks)
+                    foreach (Track track in tracks)
                     {
                         PlayTrack(track.Id, track.Name, track.Artist, track.Album);
-                        trackposition++;
                         t = false;
                         break;
-                        
+
                     }
 
                 }
             }
-            if(t == true)
+            if (t == true)
             {
                 PauseButton.Visibility = Visibility.Collapsed;
                 PlayButton.Visibility = Visibility.Visible;
@@ -195,7 +197,7 @@ namespace MediaPlayer
 
         private void PlayTrack(int trackId, string trackName, string ArtistName, string albumName)
         {
-           
+
             Uri trackFiles = _repository.GetTrackFiles(trackId);
             Uri artAlbum = _repository.GetTrackArt(trackId);
             AlbumArtImage.Source = new BitmapImage(artAlbum);
@@ -224,10 +226,33 @@ namespace MediaPlayer
         }
         private void SearchTb_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
+            if(LibraryRB.IsChecked == true)
+            {
             var filter = (DataGridLibrary.ItemsSource as List<Track>).Where(t => t.Name.Contains(SearchTb.Text));
             if (filter != null)
                 DataGridLibrary.ItemsSource = filter;
+            }
+            else if(PlayListRB.IsChecked == true)
+            {
+                var filter = (DataGridPlaylis.ItemsSource as List<Track>).Where(t => t.Name.Contains(SearchTb.Text));
+                if (filter != null)
+                    DataGridPlaylis.ItemsSource = filter;
+            }
         }
 
+        private void QueueButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (queue == false)
+            {
+                Queue_ListBox.Visibility = Visibility.Visible;
+                queue = true;
+            }
+            else
+            {
+                Queue_ListBox.Visibility = Visibility.Hidden;
+                queue = false;
+            }
+            
+        }
     }
 }
