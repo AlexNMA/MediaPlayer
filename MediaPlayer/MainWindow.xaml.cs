@@ -34,7 +34,7 @@ namespace MediaPlayer
             queueposition = 0;
             historyposition = 0;
             trackposition = 0;
-            queueState = false;
+            queueState = true;
         }
 
         private void _playbackTimer_Tick(object sender, EventArgs e)
@@ -280,10 +280,6 @@ namespace MediaPlayer
             Queue_ListBox.SelectedValuePath = "TracksId";
             Queue_ListBox.ItemsSource = queue;
             Queue_ListBox.Items.Refresh();
-        }
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void MenuItem_Click_AddToQueuePlaylis(object sender, RoutedEventArgs e)
