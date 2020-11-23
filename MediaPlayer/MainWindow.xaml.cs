@@ -13,6 +13,9 @@ namespace MediaPlayer
 
     public partial class MainWindow : Window
     {
+        List<History> histories;
+        int historypozition;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -22,6 +25,8 @@ namespace MediaPlayer
             _playbackTimer.Interval = TimeSpan.FromSeconds(1);
             _playbackTimer.Tick += _playbackTimer_Tick;
             Timer1Label.ContentStringFormat = "{0:mm\\:ss}";
+            histories = new List<History>();
+            historypozition = 0;
         }
 
         private void _playbackTimer_Tick(object sender, EventArgs e)
@@ -102,6 +107,25 @@ namespace MediaPlayer
             }
             else
             {
+                List<Track> tracks = new List<Track>();
+                foreach (History index in histories)
+                {
+                    if (index.Id == (historypozition - 2))
+                    {
+                        tracks = _repository.GetOneTrack(index.TrackId);
+                        foreach (Track track in tracks)
+                        {
+                            Uri trackFiles = _repository.GetTrackFiles(track.Id);
+                            Uri artAlbum = _repository.GetTrackArt(track.Id);
+                            AlbumArtImage.Source = new BitmapImage(artAlbum);
+                            TrackAndArtistLabel.Content = track.Name + " - " + track.Artist;
+                            AlbumLabel.Content = track.Album;
+                            MediaplayerElement.Source = trackFiles;
+                            MediaplayerElement.Play();
+                            historypozition--;
+                        }
+                    }
+                }
 
             }
 
@@ -109,8 +133,7 @@ namespace MediaPlayer
 
         private void TrackBarSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            //TrackBarSlider.Maximum = MediaplayerElement.Position.TotalSeconds;
-            //MediaplayerElement.Position = new TimeSpan((int)TrackBarSlider.Value);
+
         }
 
 
@@ -133,19 +156,23 @@ namespace MediaPlayer
         private void DataGridLibrary_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Track selectedTrack = DataGridLibrary.SelectedItem as Track;
-            PlayTrack(selectedTrack.Id, selectedTrack.Id, selectedTrack.Name, selectedTrack.Artist, selectedTrack.Album);
+            PlayTrack(selectedTrack.Id, selectedTrack.Name, selectedTrack.Artist, selectedTrack.Album);
+            historypozition++;
         }
 
         private void DataGridPlaylis_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Track selectedTrack = DataGridPlaylis.SelectedItem as Track;
-            PlayTrack(selectedTrack.Id, selectedTrack.Id, selectedTrack.Name, selectedTrack.Artist, selectedTrack.Album);
+            PlayTrack(selectedTrack.Id, selectedTrack.Name, selectedTrack.Artist, selectedTrack.Album);
+            historypozition++;
         }
 
-        private void PlayTrack(int trackId, int artId, string trackName,string ArtistName, string albumName)
+        private void PlayTrack(int trackId, string trackName, string ArtistName, string albumName)
         {
+            histories.Add(new History(historypozition, trackId));
+
             Uri trackFiles = _repository.GetTrackFiles(trackId);
-            Uri artAlbum = _repository.GetTrackArt(artId);
+            Uri artAlbum = _repository.GetTrackArt(trackId);
             AlbumArtImage.Source = new BitmapImage(artAlbum);
             TrackAndArtistLabel.Content = trackName + " - " + ArtistName;
             AlbumLabel.Content = albumName;
@@ -175,11 +202,6 @@ namespace MediaPlayer
             var filter = (DataGridLibrary.ItemsSource as List<Track>).Where(t => t.Name.Contains(SearchTb.Text));
             if (filter != null)
                 DataGridLibrary.ItemsSource = filter;
-        }
-
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
-
         }
 
     }

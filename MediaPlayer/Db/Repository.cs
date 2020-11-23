@@ -180,8 +180,8 @@ values(@TrackId, @PlaylistId)";
                 {
 
                 }
-               
-                
+
+
 
             }
             _con.Close();
@@ -194,11 +194,41 @@ where TrackId = " + index;
             _con.Open();
             using (SqlCommand cmd = new SqlCommand(cmdstr, _con))
             {
-                
+
                 cmd.ExecuteNonQuery();
             }
 
             _con.Close();
+        }
+        public List<Track> GetOneTrack(object trackId)
+        {
+            _con.Open();
+            List<Track> tracks = new List<Track>();
+            string query = @"
+select * 
+from Track
+where Id = @Id";
+            using (SqlCommand command = new SqlCommand(query, _con))
+            {
+                command.Parameters.AddWithValue("@Id", trackId);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Track t = new Track
+                    {
+                        Id = reader.GetInt32(0),
+                        Name = reader.GetString(1),
+                        Artist = reader.GetString(2),
+                        Album = reader.GetString(3),
+                        Genre = reader.GetString(4)
+                    };
+                    tracks.Add(t);
+                }
+            }
+            _con.Close();
+
+
+            return tracks;
         }
 
     }
