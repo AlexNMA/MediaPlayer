@@ -180,9 +180,6 @@ values(@TrackId, @PlaylistId)";
                 {
 
                 }
-
-
-
             }
             _con.Close();
         }

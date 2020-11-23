@@ -136,7 +136,7 @@
                 <RowDefinition Height="150" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Image Source="/logo.png"
+            <Image Source="/resource/logo.png"
                    Margin="10" />
             <StackPanel Margin="10"
                         Orientation="Vertical"
@@ -211,8 +211,6 @@
                     <ContextMenu>
                         <MenuItem Header="Add to My Playlist"
                                   Click="MenuItem_Click_addToPlaylis" />
-                        <MenuItem Header="Add to queue"
-                                  Click="MenuItem_Click_addToQueue" />
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
@@ -236,8 +234,6 @@
                     <ContextMenu>
                         <MenuItem Header="Remove from playlist"
                                   Click="MenuItem_Click_RemoveFromPlaylist" />
-                        <MenuItem Header="Add to queue"
-                                  Click="MenuItem_Click_AddToQueuePlaylis" />
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
@@ -299,6 +295,22 @@
                           Data="M43,43c-14.78125,0 -26.875,12.09375 -26.875,26.875c0,7.93653 3.54834,15.0542 9.07031,19.98828c-14.82324,6.80273 -25.19531,21.81494 -25.19531,39.13672h10.75c0,-17.86768 14.38232,-32.25 32.25,-32.25c17.86768,0 32.25,14.38232 32.25,32.25h10.75c0,-7.41162 -1.88965,-14.40332 -5.20703,-20.49219h0.33594c1.99463,-9.80518 10.54004,-17.13281 20.99609,-17.13281c11.92578,0 21.5,9.57422 21.5,21.5h10.75c0,-5.87891 -1.57471,-11.35889 -4.36719,-16.125c2.22559,-6.23584 8.0625,-10.75 15.11719,-10.75c8.96533,0 16.125,7.15967 16.125,16.125h10.75c0,-9.86816 -5.45898,-18.49756 -13.4375,-23.17969c1.74268,-2.58252 2.6875,-5.75293 2.6875,-9.07031c0,-8.83935 -7.28565,-16.125 -16.125,-16.125c-8.83935,0 -16.125,7.28565 -16.125,16.125c0,3.31739 0.94482,6.48779 2.6875,9.07031c-3.80029,2.20459 -7.07568,5.18604 -9.40625,8.90234c-1.44873,-1.17578 -3.06543,-2.28857 -4.70312,-3.19141c0.83984,-0.88183 1.65869,-1.84766 2.35156,-2.85547c2.33057,-3.44336 3.69531,-7.4956 3.69531,-11.92578c0,-11.8208 -9.6792,-21.5 -21.5,-21.5c-10.33008,0 -18.98047,7.36963 -20.99609,17.13281c-0.29394,1.38574 -0.50391,2.89746 -0.50391,4.36719c0,5.77393 2.45654,10.89697 6.21484,14.78125c-5.79492,3.17041 -10.47705,8.02051 -13.4375,13.94141c-3.61133,-3.61133 -7.91553,-6.59277 -12.59766,-8.73437c5.52197,-4.93408 9.07031,-12.05176 9.07031,-19.98828c0,-14.78125 -12.09375,-26.875 -26.875,-26.875zM43,53.75c8.96533,0 16.125,7.15967 16.125,16.125c0,8.96533 -7.15967,16.125 -16.125,16.125c-8.96533,0 -16.125,-7.15967 -16.125,-16.125c0,-8.96533 7.15967,-16.125 16.125,-16.125zM102.125,59.125c6.00489,0 10.75,4.74512 10.75,10.75c0,6.00489 -4.74511,10.75 -10.75,10.75c-6.00488,0 -10.75,-4.74511 -10.75,-10.75c0,-0.75586 0.02099,-1.46972 0.16797,-2.18359c0.98682,-4.93408 5.33301,-8.56641 10.58203,-8.56641zM145.125,64.5c3.02344,0 5.375,2.35156 5.375,5.375c0,3.02344 -2.35156,5.375 -5.375,5.375c-3.02344,0 -5.375,-2.35156 -5.375,-5.375c0,-3.02344 2.35156,-5.375 5.375,-5.375z" />
 
                 </Button>
+                <Slider x:Name="VolumeSlider"
+                        Background="{x:Null}"
+                        BorderBrush="{x:Null}"
+                        Foreground="{x:Null}"
+                        Margin="40,14,97,14"
+                        ValueChanged="VolumeSlider_ValueChanged"
+                        Maximum="1"
+                        LargeChange="0.1" />
+                <Image HorizontalAlignment="Left"
+                       Margin="14,8,0,8"
+                       Width="23"
+                       Height="30"
+                       Source="/resource/sound-.png"
+                       StretchDirection="Both"
+                       Stretch="UniformToFill">
+                </Image>
             </Grid>
 
 
@@ -402,7 +414,21 @@
                   Grid.Row="5"
                   Background="#00000000">
                 <DataGrid x:Name="QueueGrid"
-                          ItemsSource="{Binding QueueManager.Queue}">
+                          ItemsSource="{Binding QueueManager.Queue}"
+                          Style="{DynamicResource StyleDataGridTemplate}"
+                          ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}"
+                          DragIndicatorStyle="{DynamicResource DataGridColumnHeaderStyle}"
+                          GridLinesVisibility="None"
+                          IsReadOnly="True"
+                          Background="#008B0000"
+                          Foreground="White"
+                          BorderBrush="#008B0000"
+                          FontSize="20"
+                          RowBackground="#008B0000"
+                          AlternatingRowBackground="#00000000"
+                          RowDetailsVisibilityMode="Collapsed"
+                          MouseDoubleClick="QueueGrid_MouseDoubleClick">
+
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem  Header="Remove from queue"
@@ -411,6 +437,14 @@
                     </DataGrid.ContextMenu>
                 </DataGrid>
             </Grid>
+            <Image Grid.Column="1"
+                   Margin="317,10,0,10"
+                   Grid.Row="6"
+                   Source="/resource/sound+.png"
+                   HorizontalAlignment="Left"
+                   Width="30"
+                   Height="30" />
+
         </Grid>
     </Grid>
 </Window>

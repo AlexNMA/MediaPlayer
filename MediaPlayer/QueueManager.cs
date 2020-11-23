@@ -73,7 +73,8 @@ namespace MediaPlayer
             if (lastTrack != null)
             {
                 History.RemoveAt(History.Count - 1);
-                //Queue.Insert(0, lastTrack);
+                
+                Queue.Insert(0, currentTrack);
             }
             return lastTrack;
         }

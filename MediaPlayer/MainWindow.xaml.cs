@@ -66,6 +66,24 @@ namespace MediaPlayer
             _playbackTimer.Stop();
         }
 
+        private void PreviousTrackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (MediaplayerElement.Position.TotalSeconds > 5)
+            {
+                MediaplayerElement.Position = TimeSpan.Zero;
+            }
+            else
+            {
+                PlayTrack(QueueManager.PreviousTrack());
+            }
+
+        }
+
+        private void NextTrackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            PlayTrack(QueueManager.NextTrack());
+        }
+
         private void LibraryRB_Checked(object sender, RoutedEventArgs e)
         {
 
@@ -93,24 +111,6 @@ namespace MediaPlayer
         {
             List<Track> tracks = _repository.GetTracksFromPlaylist(PlaylistLbox.SelectedValue);
             DataGridPlaylis.ItemsSource = tracks;
-        }
-
-        private void PreviousTrackBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (MediaplayerElement.Position.TotalSeconds > 5)
-            {
-                MediaplayerElement.Position = TimeSpan.Zero;
-            }
-            else
-            {
-                PlayTrack(QueueManager.PreviousTrack());
-            }
-
-        }
-
-        private void NextTrackBtn_Click(object sender, RoutedEventArgs e)
-        {
-            PlayTrack(QueueManager.NextTrack());
         }
 
         private void MenuItem_Click_addToPlaylis(object sender, RoutedEventArgs e)
@@ -147,6 +147,11 @@ namespace MediaPlayer
             List<Track> nextTracks = tracks.Skip(DataGridPlaylis.SelectedIndex + 1).ToList();
             List<Track> previousTracks = tracks.Take(DataGridLibrary.SelectedIndex).ToList();
             QueueManager.SetQueue(nextTracks, previousTracks);
+        }
+
+        private void QueueGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            
         }
 
         private void PlayTrack(Track track)
@@ -212,11 +217,6 @@ namespace MediaPlayer
 
         }
 
-        private void MenuItem_Click_addToQueue(object sender, RoutedEventArgs e)
-        {
-            Track selectedTrack = DataGridLibrary.SelectedItem as Track;
-        }
-
         private void TrackBarSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
 
@@ -230,6 +230,11 @@ namespace MediaPlayer
         private void MenuItem_Click_AddToQueuePlaylis(object sender, RoutedEventArgs e)
         {
             Track selectedTrack = DataGridPlaylis.SelectedItem as Track;
+        }
+
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            MediaplayerElement.Volume = VolumeSlider.Value;
         }
     }
 }

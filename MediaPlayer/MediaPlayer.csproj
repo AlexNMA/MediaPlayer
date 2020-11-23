@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="logo.png" />
+    <None Remove="sound-.png" />
     <None Remove="video.png" />
   </ItemGroup>
 
@@ -15,8 +16,9 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="logo.png" />
+    <Resource Include="resource\logo.png" />
     <Resource Include="resource\video.png" />
+    <Resource Include="resource\sound-.png" />
   </ItemGroup>
 
 </Project>
