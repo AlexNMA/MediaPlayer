@@ -14,7 +14,8 @@ namespace MediaPlayer
     public partial class MainWindow : Window
     {
         List<History> histories;
-        int historypozition;
+        int historyposition;
+        int trackposition;
 
         public MainWindow()
         {
@@ -26,7 +27,8 @@ namespace MediaPlayer
             _playbackTimer.Tick += _playbackTimer_Tick;
             Timer1Label.ContentStringFormat = "{0:mm\\:ss}";
             histories = new List<History>();
-            historypozition = 0;
+            historyposition = 0;
+            trackposition = 0;
         }
 
         private void _playbackTimer_Tick(object sender, EventArgs e)
@@ -93,11 +95,6 @@ namespace MediaPlayer
             DataGridPlaylis.ItemsSource = tracks;
         }
 
-        private void EndTrackBtn_Click(object sender, RoutedEventArgs e)
-        {
-            MediaplayerElement.Stop();
-
-        }
 
         private void FirstTrackBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -110,23 +107,48 @@ namespace MediaPlayer
                 List<Track> tracks = new List<Track>();
                 foreach (History index in histories)
                 {
-                    if (index.Id == (historypozition - 2))
+                    if ((trackposition - 1) == index.Id )
                     {
                         tracks = _repository.GetOneTrack(index.TrackId);
                         foreach (Track track in tracks)
                         {
-                            Uri trackFiles = _repository.GetTrackFiles(track.Id);
-                            Uri artAlbum = _repository.GetTrackArt(track.Id);
-                            AlbumArtImage.Source = new BitmapImage(artAlbum);
-                            TrackAndArtistLabel.Content = track.Name + " - " + track.Artist;
-                            AlbumLabel.Content = track.Album;
-                            MediaplayerElement.Source = trackFiles;
-                            MediaplayerElement.Play();
-                            historypozition--;
+                            PlayTrack(track.Id, track.Name, track.Artist, track.Album);
+                            trackposition--;
+                            break;
+                            
                         }
                     }
                 }
 
+            }
+
+        }
+
+        private void EndTrackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            bool t = true;
+            List<Track> tracks = new List<Track>();
+            foreach (History index in histories)
+            {
+                if ((trackposition + 1) == index.Id)
+                {
+                    tracks = _repository.GetOneTrack(index.TrackId);
+                    foreach(Track track in tracks)
+                    {
+                        PlayTrack(track.Id, track.Name, track.Artist, track.Album);
+                        trackposition++;
+                        t = false;
+                        break;
+                        
+                    }
+
+                }
+            }
+            if(t == true)
+            {
+                PauseButton.Visibility = Visibility.Collapsed;
+                PlayButton.Visibility = Visibility.Visible;
+                MediaplayerElement.Stop();
             }
 
         }
@@ -157,20 +179,23 @@ namespace MediaPlayer
         {
             Track selectedTrack = DataGridLibrary.SelectedItem as Track;
             PlayTrack(selectedTrack.Id, selectedTrack.Name, selectedTrack.Artist, selectedTrack.Album);
-            historypozition++;
+            histories.Add(new History(historyposition, selectedTrack.Id));
+            historyposition++;
+            trackposition++;
         }
 
         private void DataGridPlaylis_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Track selectedTrack = DataGridPlaylis.SelectedItem as Track;
             PlayTrack(selectedTrack.Id, selectedTrack.Name, selectedTrack.Artist, selectedTrack.Album);
-            historypozition++;
+            histories.Add(new History(historyposition, selectedTrack.Id));
+            historyposition++;
+            trackposition++;
         }
 
         private void PlayTrack(int trackId, string trackName, string ArtistName, string albumName)
         {
-            histories.Add(new History(historypozition, trackId));
-
+           
             Uri trackFiles = _repository.GetTrackFiles(trackId);
             Uri artAlbum = _repository.GetTrackArt(trackId);
             AlbumArtImage.Source = new BitmapImage(artAlbum);
