@@ -481,7 +481,8 @@
                                                    Grid.Row="1"
                                                    ViewportSize="{TemplateBinding ViewportHeight}"
                                                    Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
+                                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" 
+                                                   Background="Transparent"/>
                                         <Grid Grid.Column="1"
                                               Grid.Row="2">
                                             <Grid.ColumnDefinitions>

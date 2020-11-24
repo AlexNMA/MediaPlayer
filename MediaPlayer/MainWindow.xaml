@@ -12,7 +12,8 @@
         MinWidth="1350"
         Height="994"
         MinHeight="600"
-        Loaded="MediaPlayerWindow_Loaded">
+        Loaded="MediaPlayerWindow_Loaded"
+        Icon="/resource/logo.png">
     <Window.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type RadioButton}"
@@ -206,7 +207,8 @@
                       Style="{DynamicResource StyleDataGridTemplate}"
                       AlternatingRowBackground="#00000000"
                       RowBackground="#00000000"
-                      ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}">
+                      ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}"
+                      Margin="20,0,20,0">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Add to My Playlist"
@@ -221,7 +223,7 @@
                       Grid.Row="1"
                       GridLinesVisibility="None"
                       IsReadOnly="True"
-                      Margin="10,204,10,0"
+                      Margin="20,204,20,0"
                       Background="#008B0000"
                       Foreground="White"
                       BorderBrush="#008B0000"
@@ -439,7 +441,12 @@
                           ScrollViewer.VerticalScrollBarVisibility="Hidden"
                           HorizontalScrollBarVisibility="Auto"
                           VerticalScrollBarVisibility="Auto">
-
+                    <DataGrid.Resources>
+                        <Style TargetType="ScrollBar">
+                            <Setter Property="Background"
+                                    Value="Transparent" />
+                        </Style>
+                    </DataGrid.Resources>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem  Header="Remove from queue"
