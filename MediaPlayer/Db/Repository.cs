@@ -13,13 +13,15 @@ namespace MediaPlayer.Db
         {
             string connectionString = ConfigurationManager.ConnectionStrings["mediaPlayer"].ConnectionString;
             _con = new SqlConnection(connectionString);
-            //_con.Open();
+
         }
         private SqlConnection _con;
 
 
+
         public List<Track> GetTracks()
         {
+            
             _con.Open();
             List<Track> tracks = new List<Track>();
 
@@ -113,12 +115,14 @@ where tp.PlaylistId = @TrackId";
 
         public Uri GetTrackFiles(object index)
         {
+            var trackFolder = ConfigurationManager.AppSettings.GetValues(0);
+            string trackfile = trackFolder[0];
             if (index == null)
             {
-                return new Uri("C:/tracksFolder");
+                return new Uri(trackfile);
             }
 
-            Uri uri = new Uri("C:/tracksFolder");
+            Uri uri = new Uri(trackfile);
             string query = @"
 select Track.Url
 from Track
@@ -131,7 +135,7 @@ where Track.Id = @Id";
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    uri = new Uri(reader.GetString(0));
+                    uri = new Uri(trackfile + reader.GetString(0));
 
                 }
             }
@@ -140,7 +144,9 @@ where Track.Id = @Id";
         }
         public Uri GetTrackArt(object index)
         {
-            Uri uri = new Uri("C:/ tracksFolder/artImages");
+            var artFolder = ConfigurationManager.AppSettings.GetValues(1);
+            string artfile = artFolder[0];
+            Uri uri = new Uri(artfile);
             string query = @"
 select Track.AlbumArt
 from Track
@@ -152,7 +158,7 @@ where Track.Id = @Id";
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    uri = new Uri(reader.GetString(0));
+                    uri = new Uri(artfile + reader.GetString(0));
                 }
 
             }
