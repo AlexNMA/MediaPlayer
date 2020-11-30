@@ -24,7 +24,8 @@ namespace MediaPlayer
             _playbackTimer.Interval = TimeSpan.FromSeconds(1);
             _playbackTimer.Tick += _playbackTimer_Tick;
             Timer1Label.ContentStringFormat = "{0:mm\\:ss}";
-            _queueState = true;
+            _queueState = false;
+            QueueGrid.Visibility = Visibility.Hidden;
             this.DataContext = this;
         }
 
@@ -39,6 +40,10 @@ namespace MediaPlayer
         {
             TrackBarSlider.Value = MediaplayerElement.Position.TotalSeconds;
             Timer1Label.Content = MediaplayerElement.Position.Duration();
+            if (MediaplayerElement.Position.Duration() == MediaplayerElement.NaturalDuration.TimeSpan)
+            {
+                PlayTrack(QueueManager.NextTrack());
+            }
 
         }
 
@@ -92,6 +97,7 @@ namespace MediaPlayer
             PlaylistLbox.Visibility = Visibility.Hidden;
             List<Track> tracks = _repository.GetTracks();
             DataGridLibrary.ItemsSource = tracks;
+            DataGridLibrary.Columns[0].Visibility = Visibility.Collapsed;
         }
 
         private void PlayListRB_Checked(object sender, RoutedEventArgs e)
@@ -105,12 +111,14 @@ namespace MediaPlayer
             PlaylistLbox.DisplayMemberPath = "Name";
             PlaylistLbox.SelectedValuePath = "Id";
             PlaylistLbox.ItemsSource = playlists;
+            
         }
 
         private void PlaylistLbox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             List<Track> tracks = _repository.GetTracksFromPlaylist(PlaylistLbox.SelectedValue);
             DataGridPlaylis.ItemsSource = tracks;
+            DataGridPlaylis.Columns[0].Visibility = Visibility.Collapsed;
         }
 
         private void MenuItem_Click_addToPlaylis(object sender, RoutedEventArgs e)
@@ -195,7 +203,7 @@ namespace MediaPlayer
             }
             else if (PlayListRB.IsChecked == true)
             {
-                var filter = (DataGridPlaylis.ItemsSource as List<Track>).Where(t => t.Name.Contains(SearchTb.Text));
+                var filter = (DataGridPlaylis.ItemsSource as IEnumerable<Track>).Where(t => t.Name.Contains(SearchTb.Text));
                 if (filter != null)
                     DataGridPlaylis.ItemsSource = filter;
             }
@@ -214,12 +222,13 @@ namespace MediaPlayer
                 QueueGrid.Visibility = Visibility.Hidden;
                 _queueState = false;
             }
+            QueueGrid.Columns[0].Visibility = Visibility.Collapsed;
 
         }
 
         private void TrackBarSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
+            
         }
 
         private void MenuItem_Click_RemoveFromQueue(object sender, RoutedEventArgs e)

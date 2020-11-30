@@ -142,6 +142,7 @@ where Track.Id = @Id";
             _con.Close();
             return uri;
         }
+
         public Uri GetTrackArt(object index)
         {
             var artFolder = ConfigurationManager.AppSettings.GetValues(1);
@@ -165,6 +166,7 @@ where Track.Id = @Id";
             _con.Close();
             return uri;
         }
+
         public void AddInPlaylist(object TrackId, object PlaylistId)
         {
             string cmdstr = @"
@@ -189,6 +191,7 @@ values(@TrackId, @PlaylistId)";
             }
             _con.Close();
         }
+
         public void RemoveFromPlaylist(object index)
         {
             string cmdstr = @"
@@ -203,36 +206,8 @@ where TrackId = " + index;
 
             _con.Close();
         }
-        public List<Track> GetOneTrack(object trackId)
-        {
-            _con.Open();
-            List<Track> tracks = new List<Track>();
-            string query = @"
-select * 
-from Track
-where Id = @Id";
-            using (SqlCommand command = new SqlCommand(query, _con))
-            {
-                command.Parameters.AddWithValue("@Id", trackId);
-                SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    Track t = new Track
-                    {
-                        Id = reader.GetInt32(0),
-                        Name = reader.GetString(1),
-                        Artist = reader.GetString(2),
-                        Album = reader.GetString(3),
-                        Genre = reader.GetString(4)
-                    };
-                    tracks.Add(t);
-                }
-            }
-            _con.Close();
 
-
-            return tracks;
-        }
+        
 
     }
 

@@ -220,6 +220,7 @@
             <DataGrid ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}"
                       Style="{DynamicResource StyleDataGridTemplate}"
                       x:Name="DataGridPlaylis"
+                     
                       Grid.Row="1"
                       GridLinesVisibility="None"
                       IsReadOnly="True"
