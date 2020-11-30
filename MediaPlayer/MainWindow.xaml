@@ -433,7 +433,7 @@
                           Background="#008B0000"
                           Foreground="White"
                           BorderBrush="#008B0000"
-                          FontSize="20"
+                          FontSize="12"
                           RowBackground="#008B0000"
                           AlternatingRowBackground="#00000000"
                           RowDetailsVisibilityMode="Collapsed"

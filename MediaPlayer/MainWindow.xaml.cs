@@ -111,7 +111,7 @@ namespace MediaPlayer
             PlaylistLbox.DisplayMemberPath = "Name";
             PlaylistLbox.SelectedValuePath = "Id";
             PlaylistLbox.ItemsSource = playlists;
-            
+
         }
 
         private void PlaylistLbox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -159,7 +159,7 @@ namespace MediaPlayer
 
         private void QueueGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            
+
         }
 
         private void PlayTrack(Track track)
@@ -228,7 +228,7 @@ namespace MediaPlayer
 
         private void TrackBarSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            
+           
         }
 
         private void MenuItem_Click_RemoveFromQueue(object sender, RoutedEventArgs e)
